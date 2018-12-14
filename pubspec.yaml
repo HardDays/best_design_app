@@ -1,0 +1,110 @@
+name: uplifting_mobile
+description: A new Flutter project.
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# Read more about versioning at semver.org.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.0.0-dev.68.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^0.1.2
+  flutter_calendar: ^0.0.1
+  flutter_picker: ^1.0.2
+  path_provider: ^0.4.1
+  
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+# For information on the generic Dart part of this file, see the
+# following page: https://www.dartlang.org/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  assets:
+    - assets/images/start_bg.png
+    - assets/images/login_bg.png
+    - assets/images/logo.png
+    - assets/images/photo_border.png
+    - assets/images/calendar_card_bg.png
+    - assets/images/positive_card_bg.png
+    - assets/images/bucket_list_card_bg.png
+    - assets/images/self_love_card_bg.png
+    - assets/images/calendar_bg.png
+
+    - assets/images/jan_bg.png
+    - assets/images/feb_bg.png
+    - assets/images/mar_bg.png
+    - assets/images/apr_bg.png
+    - assets/images/may_bg.png
+    - assets/images/jun_bg.png
+    - assets/images/jul_bg.png
+    - assets/images/aug_bg.png
+    - assets/images/sep_bg.png
+    - assets/images/oct_bg.png
+    - assets/images/nov_bg.png
+    - assets/images/dec_bg.png
+
+    - assets/images/affirmation_header.png
+
+    - assets/images/health_card_bg.png
+    - assets/images/love_card_bg.png
+    - assets/images/abundance_card_bg.png
+    - assets/images/personal_card_bg.png
+    
+    - assets/images/bucket_list_bg.png
+
+    - assets/images/health_bg.png
+    - assets/images/love_bg.png
+    - assets/images/abundance_bg.png
+    - assets/images/personal_bg.png
+
+  fonts:
+    - family: Cookie
+      fonts:
+        - asset: assets/fonts/Cookie-Regular.ttf
+
+    - family: Gilroy-Medium
+      fonts:
+        - asset: assets/fonts/Gilroy-Medium.ttf
+    - family: Gilroy
+      fonts:
+        - asset: assets/fonts/Gilroy-Regular.ttf
+    - family: Gilroy-Bold
+      fonts:
+        - asset: assets/fonts/Gilroy-Bold.ttf
+    - family: Gilroy-SemiBold
+      fonts:
+        - asset: assets/fonts/Gilroy-SemiBold.ttf
+    - family: Gilroy-ExtraBold
+      fonts:
+        - asset: assets/fonts/Gilroy-ExtraBold.ttf
+    - family: ClickerScript
+      fonts:
+        - asset: assets/fonts/ClickerScript-Regular.ttf
+
+    - family: CherrySwash
+      fonts:
+        - asset: assets/fonts/CherrySwash-Regular.ttf
+
+    - family: Norican
+      fonts:
+        - asset: assets/fonts/Norican-Regular.ttf
