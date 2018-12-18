@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../widgets/main_button.dart';
-import '../../widgets/calendar.dart';
 import '../../widgets/tcalendar.dart';
 
 import '../../dialogs/dialogs.dart';
@@ -23,20 +22,24 @@ class CalendarPage extends StatefulWidget {
 }
 
 class CalendarPageState extends State<CalendarPage> {
-  
-  List<String> monthAffirmations;
+
+  CalendarController controller;  
 
   DateTime selectedDate;
   DateTime selectedMonth;
-  
+
+  List<String> monthAffirmations;
+
   Map<DateTime, List<CalendarItem>> calendar;
 
   @override
   void initState() {    
     super.initState();
     
-    selectedMonth = DateTime.now();
+    selectedMonth = DateTime.now().year < 2019 ? DateTime(2019, 1, 1) : DateTime.now();
     selectedDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
+    controller = CalendarController();
 
     monthAffirmations = DataProvider.getMonthAffirmations();
 
@@ -64,6 +67,7 @@ class CalendarPageState extends State<CalendarPage> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: AppColors.appBarBlue,
+        centerTitle: false,
         title: Text('Calendar',
           style: TextStyle(
             color: Colors.white,
@@ -78,7 +82,7 @@ class CalendarPageState extends State<CalendarPage> {
               alignment: Alignment.center,
               icon: Icon(Icons.info, color: Colors.white),
               onPressed: (){
-                Dialogs.showMessage(context, 'Calendar', AppText.calendarDescription, 'OK');
+                Dialogs.showCalendarInfo(context);
               },
             ),
           )
@@ -145,7 +149,8 @@ class CalendarPageState extends State<CalendarPage> {
                 //   onDayPressed: onDateSelect,
                 //   onMonthChanged: onMonthChange,
                 // )
-                child: TCalendar(
+                child: Calendar(
+                  controller: controller,
                   selectedDate: selectedDate,
                   markedDates: calendar.keys.toList(),
                   onDateSelect: onDateSelect,
@@ -175,15 +180,16 @@ class CalendarPageState extends State<CalendarPage> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 0.0, right: 10.0, left: 10.0, bottom: 10.0),
+                      margin: EdgeInsets.only(top: 0.0, right: 10.0, left: 10.0, bottom: 5.0),
                       child: Column(
                         children: List.generate(calendar[selectedDate].length, 
                           (ind) {
                             var item = calendar[selectedDate][ind];
                             return Container(
-                              margin: EdgeInsets.only(bottom: 5.0),
+                              margin: EdgeInsets.only(bottom: 10.0),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Container(
                                     child: Text(DateFormat('hh:mma').format(DateTime(2018, 12, 12, item.alertTime.hour, item.alertTime.minute)),
@@ -196,8 +202,9 @@ class CalendarPageState extends State<CalendarPage> {
                                   ),
                                   Flexible(
                                     child: Container(
+                                      alignment: Alignment.topLeft,
                                       margin: EdgeInsets.only(left: 10.0, right: 10.0),
-                                      child: Text(item.careAffirmation.title  ,
+                                      child: Text(item.careAffirmation.title,
                                         maxLines: 3,
                                         style: TextStyle(
                                           color: AppColors.textDarkPink,
@@ -205,8 +212,28 @@ class CalendarPageState extends State<CalendarPage> {
                                           fontFamily: 'Gilroy',
                                         ),
                                       ),
-                                    )
-                                  )
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(),
+                                    child: InkWell(
+                                      onTap: () {
+                                        Dialogs.showAddToCalendar(context, calendarItem: item).then((res){
+                                          setState(() {
+                                            calendar = DataProvider.getDateCalendarItems();
+                                            controller.setMarkedDates(calendar.keys.toList());
+                                          });
+                                        });
+                                      },
+                                      child: Text('edit',
+                                        style: TextStyle(
+                                          fontFamily: 'Gilroy-Medium',
+                                          color: Colors.black,
+                                          fontSize: 16.0
+                                        ),
+                                      ),
+                                    ),
+                                  ) 
                                 ],
                               ),
                             );

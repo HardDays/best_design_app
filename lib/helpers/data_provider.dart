@@ -12,7 +12,7 @@ class DataProvider {
     'I Accept perfect health now',
     'I Am confident',
     'I Only attract healthy relationships in my life',
-    'I Am a magner for money',
+    'I Am a magnet for money',
     'Abundance flows freely into my life',
     'I Move from forgiveness to love',
     'The Law of attraction brings only good into my life',
@@ -22,18 +22,18 @@ class DataProvider {
   ];
 
   static List<String> careTitles = [
-    'January is Being Healthy',
-    'February is Love and Relationship',
-    'March is Spring Renewal',
-    'April is Friendship',
-    'May is Family',
-    'June is New Skills',
-    'July is Little Thing to Make Us Happy',
-    'August is Pampering',
-    'September is Fun Drinks/Smoothies',
-    'October is Satisfy Sweet Tooth',
-    'November is DIY and Give Back',
-    'December is Goals',
+    'January is Being Healthy Month',
+    'February is Love & Relationship Month',
+    'March is Spring Renewal Month',
+    'April is Friendship Month',
+    'May is Family Month',
+    'June is Learn New Skills Month',
+    'July is Book Month',
+    'August is Pamper Yourself Month',
+    'September is Travel of Mind/Body/Soul Month',
+    'October is Satisfy Your Sweet Tooth Month',
+    'November is Little Things to Make You Happy Month',
+    'December is Goals (For Next Year) Month',
   ];
 
   static List<String> carePhrases = [
@@ -504,6 +504,18 @@ class DataProvider {
     calculateDates();
     Database.setCalendarItems(calendar);
   }
+
+  static void updateCalendarItem(CalendarItem item){
+    for (int i = 0; i < calendar.length; i++){
+      if (calendar[i].careAffirmation.id == item.careAffirmation.id){
+        calendar[i] = item;
+      }
+    }
+    idCalendar[item.careAffirmation.id] = item;
+    calculateDates();
+    Database.setCalendarItems(calendar);
+  }
+
 
   static void removeCalendarItem(String affirmationId){
     List<CalendarItem> remove = [];

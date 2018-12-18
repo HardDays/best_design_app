@@ -3,7 +3,18 @@ import 'package:intl/intl.dart';
 
 import '../../resources/app_colors.dart';
 
-class TCalendar extends StatefulWidget {
+class CalendarController {
+
+  Function(List<DateTime>) onMarkedDates;
+
+  void setMarkedDates(List<DateTime> markedDates){
+    onMarkedDates(markedDates);
+  }
+}
+
+class Calendar extends StatefulWidget {
+
+  CalendarController controller;
 
   List<DateTime> markedDates;
   DateTime selectedDate;
@@ -11,13 +22,13 @@ class TCalendar extends StatefulWidget {
   Function(DateTime) onDateSelect;
   Function(DateTime) onMonthChange;
 
-  TCalendar({this.selectedDate, this.markedDates = const [], this.onDateSelect, this.onMonthChange});
+  Calendar({this.selectedDate, this.controller, this.markedDates = const [], this.onDateSelect, this.onMonthChange});
 
   @override
-  TCalendarState createState() => TCalendarState();
+  CalendarState createState() => CalendarState();
 }
 
-class TCalendarState extends State<TCalendar> {
+class CalendarState extends State<Calendar> {
   
   final weekTitles = [
     'SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'
@@ -33,6 +44,14 @@ class TCalendarState extends State<TCalendar> {
   void initState() {    
     super.initState();
 
+    if (widget.controller != null) {
+      widget.controller.onMarkedDates = (dates) {
+        setState(() {
+          markedDates = dates.toSet();          
+        });
+      };
+    }
+
     monthDays = [];
     if (widget.selectedDate != null){
       selectedDate = DateTime(widget.selectedDate.year, widget.selectedDate.month, widget.selectedDate.day);
@@ -43,7 +62,7 @@ class TCalendarState extends State<TCalendar> {
       markedDates.add(DateTime(date.year, date.month, date.day));
     }
 
-    monthDate = DateTime(DateTime.now().year, DateTime.now().month, 1);
+    monthDate = DateTime.now().year < 2019 ? DateTime(2019, 1, 1) : DateTime.now();
   }
 
   int countDays(DateTime date){
@@ -92,13 +111,17 @@ class TCalendarState extends State<TCalendar> {
                   padding: EdgeInsets.only(top: 12.0),
                   onPressed: (){
                     setState(() {
-                      if (widget.onMonthChange != null){
-                        widget.onMonthChange(monthDate);
+                      if (monthDate.month > 1){
+                        monthDate = DateTime(monthDate.year, monthDate.month - 1, 1);
+                        if (widget.onMonthChange != null){
+                          widget.onMonthChange(monthDate);
+                        }
                       }
-                      monthDate = DateTime(monthDate.year, monthDate.month - 1, 1);                     
                     });
                   },
-                  icon: Icon(Icons.arrow_back_ios),
+                  icon: Icon(Icons.arrow_back_ios,
+                    color: monthDate.month == 1 ? Colors.transparent : Colors.black,
+                  ),
                 ),
                 Container(
                   padding: EdgeInsets.only(bottom: 7.0),
@@ -116,13 +139,17 @@ class TCalendarState extends State<TCalendar> {
                   padding: EdgeInsets.only(top: 12.0),
                   onPressed: (){
                     setState(() {
-                      if (widget.onMonthChange != null){
-                        widget.onMonthChange(monthDate);
+                      if (monthDate.month < 12){
+                        monthDate = DateTime(monthDate.year, monthDate.month + 1, 1);                     
+                        if (widget.onMonthChange != null){
+                          widget.onMonthChange(monthDate);
+                        }
                       }
-                      monthDate = DateTime(monthDate.year, monthDate.month + 1, 1);                     
                     });
                   },
-                  icon: Icon(Icons.arrow_forward_ios),
+                  icon: Icon(Icons.arrow_forward_ios,
+                    color: monthDate.month == 12 ? Colors.transparent : Colors.black,
+                  ),
                 )
               ]
             ),

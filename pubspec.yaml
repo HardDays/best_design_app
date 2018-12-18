@@ -49,6 +49,7 @@ flutter:
     - assets/images/bucket_list_card_bg.png
     - assets/images/self_love_card_bg.png
     - assets/images/calendar_bg.png
+    - assets/images/photo_blue_border.png
 
     - assets/images/jan_bg.png
     - assets/images/feb_bg.png

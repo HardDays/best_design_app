@@ -5,6 +5,8 @@ import 'care_list_page.dart';
 import 'affirmations_page.dart';
 import 'bucket_list_page.dart';
 
+import '../settings/settings_page.dart';
+
 import '../../widgets/main_button.dart';
 
 import '../../dialogs/dialogs.dart';
@@ -31,7 +33,7 @@ class MainPageState extends State<MainPage> {
     DataProvider.init();
   }
 
-  Widget buildItem(String name, String image, String info, Widget page) {
+  Widget buildItem(String name, String image, Function onInfo, Widget page) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -103,9 +105,7 @@ class MainPageState extends State<MainPage> {
                     iconSize: 22.0,
                     alignment: Alignment.bottomRight,
                     icon: Icon(Icons.info, color: Colors.white),
-                    onPressed: (){
-                      Dialogs.showMessage(context, name, info, 'OK');
-                    },
+                    onPressed: onInfo
                   ),
                 )
               ]
@@ -123,6 +123,7 @@ class MainPageState extends State<MainPage> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: AppColors.appBarBlue,
+        centerTitle: false,
         leading: Container(
           margin: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 10.0),
           decoration: BoxDecoration(
@@ -139,6 +140,24 @@ class MainPageState extends State<MainPage> {
             fontSize: 25.0
           ),
         ),
+        actions: <Widget>[
+          InkWell(
+            onTap: (){
+              Navigator.push(
+                context, 
+                DefaultPageRoute(builder: (context) => SettingsPage()),
+              ); 
+            },
+            child: Container(
+              width: 40.0,
+              height: 40.0,
+              decoration: BoxDecoration(
+                color: Colors.green,
+                shape: BoxShape.circle
+              ),
+            ),
+          )
+        ],
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -146,10 +165,10 @@ class MainPageState extends State<MainPage> {
         child: SingleChildScrollView(
           child: Column(  
             children: <Widget>[
-              buildItem('Calendar', 'assets/images/calendar_card_bg.png', AppText.calendarDescription, CalendarPage()),
-              buildItem('Self Love/Self Care List', 'assets/images/self_love_card_bg.png', AppText.careDescription, CareListPage()),
-              buildItem('Positive Affirmation', 'assets/images/positive_card_bg.png', AppText.affirmationsDescription, AffirmationsPage()),
-              buildItem('Bucket List', 'assets/images/bucket_list_card_bg.png', AppText.bucketsDescription, BucketListPage())
+              buildItem('Calendar', 'assets/images/calendar_card_bg.png', () => Dialogs.showCalendarInfo(context), CalendarPage()),
+              buildItem('Self Love/Self Care List', 'assets/images/self_love_card_bg.png', () => Dialogs.showCareListInfo(context), CareListPage()),
+              buildItem('Positive Affirmation', 'assets/images/positive_card_bg.png', () => Dialogs.showPositiveInfo(context), AffirmationsPage()),
+              buildItem('Bucket List', 'assets/images/bucket_list_card_bg.png', () => Dialogs.showBucketListInfo(context), BucketListPage())
             ],
           ),
         )

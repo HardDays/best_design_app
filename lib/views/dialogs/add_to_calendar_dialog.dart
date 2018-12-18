@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 
+import 'dialogs.dart';
+
 import '../routes/default_page_route.dart';
 
 import '../../models/calendar_item.dart';
@@ -18,7 +20,8 @@ import '../../resources/app_text.dart';
 class AddToCalendarDialog extends StatefulWidget {
 
   CareAffirmation careAffirmation;
-  AddToCalendarDialog({this.careAffirmation});
+  CalendarItem calendarItem;
+  AddToCalendarDialog({this.careAffirmation, this.calendarItem});
 
   @override
   AddToCalendarDialogState createState() => AddToCalendarDialogState();
@@ -39,6 +42,7 @@ class AddToCalendarDialogState extends State<AddToCalendarDialog> {
   };
 
   CalendarItem item;
+  
   String endEnabled;
   String repeatEnabled;
 
@@ -46,22 +50,31 @@ class AddToCalendarDialogState extends State<AddToCalendarDialog> {
   void initState() {    
     super.initState();
 
-    item = CalendarItem();
+    if (widget.calendarItem != null) {
+      item = widget.calendarItem;
 
-    item.careAffirmation = widget.careAffirmation;
-    
-    item.beginDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-    item.endMode = EndMode.never;
-    item.alertTime = TimeOfDay(hour: 10, minute: 00);
-    item.repeatMode = RepeatMode.noRepeat;
+      item.id = 'kek';
 
-    endEnabled = EndMode.never;
-    repeatEnabled = RepeatMode.noRepeat;
+      endEnabled = item.endMode == EndMode.never ? EndMode.never : null;
+      repeatEnabled = item.repeatMode == RepeatMode.noRepeat ? RepeatMode.noRepeat : null;
+    } else {
+      var date = DateTime.now().year < 2019 ? DateTime(2019, 1, 1) : DateTime.now();
+
+      item = CalendarItem();
+      item.careAffirmation = widget.careAffirmation;
+      item.beginDate = DateTime(date.year, date.month, date.day);
+      item.endMode = EndMode.never;
+      item.alertTime = TimeOfDay(hour: 10, minute: 00);
+      item.repeatMode = RepeatMode.noRepeat;
+
+      endEnabled = EndMode.never;
+      repeatEnabled = RepeatMode.noRepeat;
+    }
   }
 
   void onBegin() async {
     Picker(
-      adapter: DateTimePickerAdapter(yearBegin: DateTime.now().year, value: item.beginDate),
+      adapter: DateTimePickerAdapter(yearBegin: item.beginDate.year, value: item.beginDate),
       hideHeader: true,
       title: Text('Select begin date'),
       confirmText: 'OK',
@@ -266,7 +279,7 @@ class AddToCalendarDialogState extends State<AddToCalendarDialog> {
           ),
           Container(
             margin: EdgeInsets.only(top: 15.0),
-            child: Text(widget.careAffirmation.title,
+            child: Text(item.careAffirmation.title,
               style: TextStyle(
                 fontSize: 16.0,
                 fontFamily: 'Gilroy',
@@ -460,8 +473,8 @@ class AddToCalendarDialogState extends State<AddToCalendarDialog> {
           ),
           Divider(height: 2.0),
           Padding(padding: EdgeInsets.only(top: 10.0)),
+          widget.calendarItem == null ?
           Container(
-            alignment: Platform.isIOS ? Alignment.center : Alignment.bottomRight,
             margin: EdgeInsets.only(top: 20.0, bottom: 20.0, right: 50.0, left: 50.0),
             child: InkWell(
               onTap: (){
@@ -476,7 +489,54 @@ class AddToCalendarDialogState extends State<AddToCalendarDialog> {
                 ),
               ),
             ),
-          ) 
+          ) :
+          Container(
+            margin: EdgeInsets.only(top: 20.0, bottom: 20.0, right: 50.0, left: 50.0),
+            child:  Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
+                  child: InkWell(
+                    onTap: () {
+                      Dialogs.showYesNo(context, 'Delete affirmtion?', item.careAffirmation.title, 'YES', 'NO',
+                        onYes: () {
+                          DataProvider.removeCalendarItem(item.careAffirmation.id);
+                          Navigator.pop(context);
+                        },
+                        onNo: () {
+
+                        }
+                      );
+                    },
+                    child: Text('DELETE',
+                      style: TextStyle(
+                        fontFamily: 'Gilroy-ExtraBold',
+                        color: Colors.red,
+                        fontSize: 18.0
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
+                  child: InkWell(
+                    onTap: (){
+                      DataProvider.updateCalendarItem(item);
+                      Navigator.pop(context);
+                    },
+                    child: Text('OK',
+                      style: TextStyle(
+                        fontFamily: 'Gilroy-ExtraBold',
+                        color: AppColors.textBlue,
+                        fontSize: 18.0
+                      ),
+                    ),
+                  ),
+                )
+              ]
+            ),
+          )
         ],
       )
     );

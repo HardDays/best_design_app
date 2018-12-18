@@ -37,6 +37,7 @@ class BucketListPageState extends State<BucketListPage> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: AppColors.appBarBlue,
+        centerTitle: false,
         title: Text('Bucket List',
           style: TextStyle(
             color: Colors.white,
@@ -51,7 +52,7 @@ class BucketListPageState extends State<BucketListPage> {
               alignment: Alignment.center,
               icon: Icon(Icons.info, color: Colors.white),
               onPressed: (){
-                Dialogs.showMessage(context, 'Bucket List', AppText.bucketsDescription, 'OK');
+                Dialogs.showBucketListInfo(context);
               },
             ),
           )

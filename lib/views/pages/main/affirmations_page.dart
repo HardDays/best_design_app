@@ -35,6 +35,7 @@ class AffirmationsPageState extends State<AffirmationsPage> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: AppColors.appBarBlue,
+        centerTitle: false,
         title: Text('Positive Affirmations',
           style: TextStyle(
             color: Colors.white,
@@ -49,7 +50,7 @@ class AffirmationsPageState extends State<AffirmationsPage> {
               alignment: Alignment.center,
               icon: Icon(Icons.info, color: Colors.white),
               onPressed: (){
-                Dialogs.showMessage(context, 'Positive Affirmations', AppText.affirmationsDescription, 'OK');
+                Dialogs.showPositiveInfo(context);
               },
             ),
           )
@@ -87,25 +88,14 @@ class AffirmationsPageState extends State<AffirmationsPage> {
                   Container(
                     margin: EdgeInsets.only(top: 5.0),
                     alignment: Alignment.topLeft,
-                    child: Text(AppText.affirmationsDescription,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Gilroy',
-                        fontSize: 14.0
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5.0),
-                    alignment: Alignment.topLeft,
-                    child: Text('Say it and Believe it.',
+                    child: Text('What aspects of your life would you like to focus on? Choose from the three lists below (Health & Beauty, Love and Abundance) and make a Personal Affirmation List of your own. Read it, believe it and focus on the positive changes you want in your life.',
                       style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'Gilroy-Bold',
                         fontSize: 14.0
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),  
             ),

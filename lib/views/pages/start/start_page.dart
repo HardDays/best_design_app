@@ -47,8 +47,10 @@ class StartPageState extends State<StartPage> {
                 color: Colors.white.withOpacity(0.8)
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
+                    alignment: Alignment.topCenter,
                     child: ShadowText('Welcome',
                       style: TextStyle(
                         color: AppColors.textDarkPink,
@@ -57,11 +59,23 @@ class StartPageState extends State<StartPage> {
                       ),
                     ),
                   ),
-                  Text('Today is a new day. A great day to take charge of your life. To love yourself and appreciate your uniqueness. To feel confident, see no boundaries or limits on what you can achieve. To empower yourself, the women and girls around you. The world is yours, if you’re bold enough to take it. I know you are! ',
-                    style: TextStyle(
-                      color: AppColors.textDarkPink,
-                      fontFamily: 'Gilroy-Medium',
-                      fontSize: 16.0
+                  RichText(
+                    text: TextSpan(
+                      style: TextStyle(
+                        color: AppColors.textDarkPink,
+                        fontFamily: 'Gilroy-Medium',
+                        fontSize: 16.0
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Today is a new day. A great day to take charge of your life. To love yourself and appreciate your uniqueness. To feel confident, see no boundaries or limits on what you can achieve. To empower yourself, the women and girls around you. The world is yours, if you’re bold enough to take it. ',
+                        ),
+                        TextSpan(text: 'I know you are!', 
+                          style: TextStyle(
+                            fontFamily: 'Gilroy-Bold',
+                          )
+                        ),
+                      ],
                     ),
                   ),
                 ]

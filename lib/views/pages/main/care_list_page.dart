@@ -65,7 +65,7 @@ class CareListPageState extends State<CareListPage> {
   void initState() {    
     super.initState();
     
-    date = DateTime.now();
+    date = DateTime.now().year < 2019 ? DateTime(2019, 1, 1) : DateTime.now();
 
     titles = DataProvider.getCareTitles();
     phrases = DataProvider.getCarePhrases();
@@ -85,6 +85,7 @@ class CareListPageState extends State<CareListPage> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: AppColors.appBarBlue,
+        centerTitle: false,
         title: Text('Self Love/Self Care List',
           style: TextStyle(
             color: Colors.white,
@@ -99,7 +100,7 @@ class CareListPageState extends State<CareListPage> {
               alignment: Alignment.center,
               icon: Icon(Icons.info, color: Colors.white),
               onPressed: (){
-                Dialogs.showMessage(context, 'Self Love/Self Care List', AppText.careDescription, 'OK');
+                Dialogs.showCareListInfo(context);
               },
             ),
           )
@@ -121,7 +122,7 @@ class CareListPageState extends State<CareListPage> {
               alignment: Alignment.topLeft,
               width: MediaQuery.of(context).size.width,
               color: monthColors[date.month - 1],
-              padding: EdgeInsets.all(20.0),
+              padding: EdgeInsets.only(left: 10.0, top: 20.0, bottom: 20.0),
               child: Column(
                 children: <Widget>[
                   Container(
@@ -130,7 +131,7 @@ class CareListPageState extends State<CareListPage> {
                       style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'Cookie',
-                        fontSize: 30.0
+                        fontSize: 22.0
                       ),
                     ),
                   ),
@@ -157,58 +158,62 @@ class CareListPageState extends State<CareListPage> {
                       (ind) {
                         return Container(
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.8),
+                            color: Colors.white.withOpacity(0.45),
                             borderRadius: BorderRadius.all(Radius.circular(5.0))
                           ),
                           margin: EdgeInsets.only(
                             top: ind == 0 ? 10.0 : 0.0, 
                             left: 10.0, 
                             right: 10.0, 
-                            bottom: 3.0
+                            bottom: 5.0
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Flexible(
-                                fit: FlexFit.tight,
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 10.0),
-                                  child: Text(affirmations[date.month - 1][ind].title,
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontFamily: 'Gilroy',
-                                      fontSize: 18.0
+                          child: IntrinsicHeight(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Flexible(
+                                  fit: FlexFit.tight,
+                                  child: Container(
+                                    alignment: Alignment.centerLeft,
+                                    padding: EdgeInsets.only(left: 10.0, top: 10.0, bottom: 10.0, right: 10.0),
+                                    child: Text(affirmations[date.month - 1][ind].title,
+                                      //maxLines: 1,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'Gilroy-Bold',
+                                        fontSize: 16.0
+                                      ),
+                                    ),
+                                  )
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(Radius.circular(5.0))
+                                  ),
+                                  child: IconButton(
+                                    onPressed: () async {
+                                      var affirmation = affirmations[date.month - 1][ind];
+                                      if (calendarItems.containsKey(affirmation.id)){
+                                        setState(()  {
+                                          DataProvider.removeCalendarItem(affirmation.id);
+                                          calendarItems.remove(affirmation.id);
+                                        });
+                                      } else {
+                                        await Dialogs.showAddToCalendar(context, careAffirmation: affirmation);     
+                                        setState(() {});    
+                                      }                          
+                                    },
+                                    iconSize: 33.0,
+                                    icon: Icon(calendarItems.containsKey(affirmations[date.month - 1][ind].id) ? Icons.remove : Icons.add, 
+                                      color: AppColors.textBlue
                                     ),
                                   ),
                                 )
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(Radius.circular(5.0))
-                                ),
-                                child: IconButton(
-                                  onPressed: () async {
-                                    var affirmation = affirmations[date.month - 1][ind];
-                                    if (calendarItems.containsKey(affirmation.id)){
-                                      setState(()  {
-                                        DataProvider.removeCalendarItem(affirmation.id);
-                                        calendarItems.remove(affirmation.id);
-                                      });
-                                    } else {
-                                      await Dialogs.showAddToCalendar(context, affirmation);     
-                                      setState(() {});    
-                                    }                          
-                                  },
-                                  iconSize: 33.0,
-                                  icon: Icon(calendarItems.containsKey(affirmations[date.month - 1][ind].id) ? Icons.remove : Icons.add, 
-                                    color: AppColors.textBlue
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
+                              ],
+                            ),
+                          )
                         );
                       }
                     )
@@ -216,7 +221,7 @@ class CareListPageState extends State<CareListPage> {
                 ),
               ),
             ),
-            Container(
+            date.month > 1 ? Container(
               margin: EdgeInsets.only(top: 0.0),
               color: Colors.white,
               padding: EdgeInsets.all(10.0),
@@ -227,7 +232,9 @@ class CareListPageState extends State<CareListPage> {
                   GestureDetector(
                     onTap: (){
                       setState(() {
-                        date = DateTime(date.year, (date.month - 1));                        
+                        if (date.month > 1){
+                          date = DateTime(date.year, (date.month - 1));       
+                        }                 
                       });
                     },
                     child: Container(
@@ -239,38 +246,12 @@ class CareListPageState extends State<CareListPage> {
                             size: 30.0,
                           ),
                           Padding(padding: EdgeInsets.only(left: 5.0)),
-                          Text('PREVIOUS MONTH',
+                          Text('PREVIOUS LIST',
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w500,
                               fontSize: 14.0
                             ),
-                          ),
-                        ]
-                      )
-                    )
-                  ),
-                  GestureDetector(
-                    onTap: (){
-                      setState(() {
-                        date = DateTime(date.year, (date.month + 1));                        
-                      });
-                    },
-                    child: Container(
-                      color: Colors.transparent,
-                      child: Row(
-                        children: <Widget>[
-                          Text('NEXT MONTH',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14.0
-                            ),
-                          ),
-                          Padding(padding: EdgeInsets.only(left: 5.0)),
-                          Icon(Icons.arrow_forward_ios,
-                            color: AppColors.textBlue,
-                            size: 30.0,
                           ),
                         ]
                       )
@@ -278,7 +259,7 @@ class CareListPageState extends State<CareListPage> {
                   ),
                 ],
               ),
-            )
+            ) : Container()
           ]
         )
       )

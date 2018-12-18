@@ -6,8 +6,10 @@ class MainButton extends StatelessWidget {
   
   final String text;
   final Function onTap;
+  final Color bgColor;
+  final Color textColor;
   
-  MainButton(this.text, {this.onTap});
+  MainButton(this.text, {this.onTap, this.bgColor = Colors.white, this.textColor = AppColors.textDarkPink});
   
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -18,7 +20,7 @@ class MainButton extends StatelessWidget {
           Container(
             padding: EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0, top: 15.0),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: bgColor,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(100.0),
                 bottomRight: Radius.circular(100.0),
@@ -36,7 +38,7 @@ class MainButton extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(15.0),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: bgColor,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(100.0),
                 bottomRight: Radius.circular(100.0),
@@ -50,7 +52,7 @@ class MainButton extends StatelessWidget {
                 child: Text(text,
                   style: TextStyle(
                     fontFamily: 'Gilroy-ExtraBold',
-                    color: AppColors.textDarkPink,
+                    color: textColor,
                     fontSize: 20.0
                   ),
                 ),

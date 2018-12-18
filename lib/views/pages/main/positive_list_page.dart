@@ -29,10 +29,10 @@ class PositiveListPage extends StatefulWidget {
 class PositiveListPageState extends State<PositiveListPage> {
 
   final images = {
-    PositiveCategory.healthAndBeauty: 'assets/images/jan_bg.png',
-    PositiveCategory.love: 'assets/images/feb_bg.png',
-    PositiveCategory.abundance: 'assets/images/mar_bg.png',
-    PositiveCategory.personal: 'assets/images/apr_bg.png',
+    PositiveCategory.healthAndBeauty: 'assets/images/health_bg.png',
+    PositiveCategory.love: 'assets/images/love_bg.png',
+    PositiveCategory.abundance: 'assets/images/abundance_bg.png',
+    PositiveCategory.personal: 'assets/images/personal_bg.png',
   };
 
   List<PositiveAffirmation> affirmations;
@@ -51,6 +51,30 @@ class PositiveListPageState extends State<PositiveListPage> {
     personal = DataProvider.getPersonalAffirmations();
   }
 
+  void onAdd(int index) async {
+    if (!personal.containsKey(affirmations[index].id)) {
+      await Dialogs.showYesNo(context, 'Add to Personal Affirmations List?', affirmations[index].title, 'YES', 'CANCEL',
+        onYes: (){
+          setState(() {
+            DataProvider.addPersonalAffirmation(affirmations[index]);
+            personal = DataProvider.getPersonalAffirmations();
+            if (widget.category == PositiveCategory.personal){
+              affirmations = DataProvider.getPersonalAffirmations().values.toList();
+            }
+          });
+        }
+      );
+    } else {
+      setState(() {
+        DataProvider.removePersonalAffirmation(affirmations[index].id);
+        personal = DataProvider.getPersonalAffirmations();
+        if (widget.category == PositiveCategory.personal){
+          affirmations = DataProvider.getPersonalAffirmations().values.toList();
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +82,7 @@ class PositiveListPageState extends State<PositiveListPage> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: AppColors.appBarBlue,
+        centerTitle: false,
         title: Text(widget.title,
           style: TextStyle(
             color: Colors.white,
@@ -72,7 +97,7 @@ class PositiveListPageState extends State<PositiveListPage> {
               alignment: Alignment.center,
               icon: Icon(Icons.info, color: Colors.white),
               onPressed: (){
-                Dialogs.showMessage(context, 'Positive Affirmations', AppText.affirmationsDescription, 'OK');
+                Dialogs.showPositiveInfo(context);
               },
             ),
           )
@@ -84,7 +109,7 @@ class PositiveListPageState extends State<PositiveListPage> {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(images[widget.category]),
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
           ),
         ),
         child: Column(  
@@ -92,7 +117,7 @@ class PositiveListPageState extends State<PositiveListPage> {
           children: <Widget>[
             Container(
               alignment: Alignment.bottomLeft,
-              padding: EdgeInsets.only(left: 10.0, bottom: 10.0),
+              padding: EdgeInsets.only(left: 10.0, bottom: 15.0),
               height: MediaQuery.of(context).size.height * 0.15,
               width: MediaQuery.of(context).size.width,
               child: ShadowText(widget.title.toUpperCase(),
@@ -113,59 +138,52 @@ class PositiveListPageState extends State<PositiveListPage> {
                       (ind) {
                         return Container(
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.8),
+                            color: Colors.white.withOpacity(0.45),
                             borderRadius: BorderRadius.all(Radius.circular(5.0))
                           ),
                           margin: EdgeInsets.only(
                             top: ind == 0 ? 10.0 : 0.0, 
                             left: 10.0, 
                             right: 10.0, 
-                            bottom: 3.0
+                            bottom: 5.0
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Flexible(
-                                fit: FlexFit.tight,
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 10.0),
-                                  child: Text(affirmations[ind].title,
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontFamily: 'Gilroy',
-                                      fontSize: 18.0
+                          child: IntrinsicHeight(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Flexible(
+                                  fit: FlexFit.tight,
+                                  child: Container(
+                                    alignment: Alignment.centerLeft,
+                                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0, right: 10.0, left: 10.0),
+                                    child: Text(affirmations[ind].title,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'Gilroy-Bold',
+                                        fontSize: 16.0
+                                      ),
+                                    ),
+                                  )
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(Radius.circular(5.0))
+                                  ),
+                                  child: IconButton(
+                                    onPressed: () {
+                                      onAdd(ind);
+                                    },
+                                    iconSize: 33.0,
+                                    icon: Icon(personal.containsKey(affirmations[ind].id) ? Icons.remove : Icons.add, 
+                                      color: AppColors.textBlue
                                     ),
                                   ),
                                 )
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(Radius.circular(5.0))
-                                ),
-                                child: IconButton(
-                                  onPressed: () async {
-                                    setState(() {
-                                      if (personal.containsKey(affirmations[ind].id)){
-                                        DataProvider.removePersonalAffirmation(affirmations[ind].id);
-                                      } else {
-                                        DataProvider.addPersonalAffirmation(affirmations[ind]);
-                                      }
-                                      personal = DataProvider.getPersonalAffirmations();
-                                      if (widget.category == PositiveCategory.personal){
-                                        affirmations = DataProvider.getPersonalAffirmations().values.toList();
-                                      }
-                                    });
-                                  },
-                                  iconSize: 33.0,
-                                  icon: Icon(personal.containsKey(affirmations[ind].id) ? Icons.remove : Icons.add, 
-                                    color: AppColors.textBlue
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
+                              ],
+                            ),
+                          )
                         );
                       }
                     )

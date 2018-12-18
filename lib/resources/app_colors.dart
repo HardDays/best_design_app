@@ -11,6 +11,7 @@ class AppColors {
   static const Color textDarkBlue = Color(0xFF093A88);
   static const Color appBarBlue = Color(0xFF55C6E7);
   static const Color affirmationsHeader = Color(0xC8674E97);
+  static const Color iconBlue = Color(0xFF1EA5CD);
 
   static const Color janHeader = Color(0xC81EA5CD);
   static const Color febHeader = Color(0xC8930303);
