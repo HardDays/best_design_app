@@ -196,10 +196,8 @@ class CareListPageState extends State<CareListPage> {
                                     onPressed: () async {
                                       var affirmation = affirmations[date.month - 1][ind];
                                       if (calendarItems.containsKey(affirmation.id)){
-                                        setState(()  {
-                                          DataProvider.removeCalendarItem(affirmation.id);
-                                          calendarItems.remove(affirmation.id);
-                                        });
+                                        await Dialogs.showAddToCalendar(context, calendarItem: calendarItems[affirmation.id]);     
+                                        setState(() {});    
                                       } else {
                                         await Dialogs.showAddToCalendar(context, careAffirmation: affirmation);     
                                         setState(() {});    
@@ -221,7 +219,8 @@ class CareListPageState extends State<CareListPage> {
                 ),
               ),
             ),
-            date.month > 1 ? Container(
+            //date.month > 1 ? Container(
+            Container(
               margin: EdgeInsets.only(top: 0.0),
               color: Colors.white,
               padding: EdgeInsets.all(10.0),
@@ -232,9 +231,9 @@ class CareListPageState extends State<CareListPage> {
                   GestureDetector(
                     onTap: (){
                       setState(() {
-                        if (date.month > 1){
+                       // if (date.month > 1){
                           date = DateTime(date.year, (date.month - 1));       
-                        }                 
+                       // }                 
                       });
                     },
                     child: Container(
@@ -259,7 +258,7 @@ class CareListPageState extends State<CareListPage> {
                   ),
                 ],
               ),
-            ) : Container()
+            )// : Container()
           ]
         )
       )

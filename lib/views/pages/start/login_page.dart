@@ -5,10 +5,14 @@ import 'forgot_password_page.dart';
 
 import '../main/main_page.dart';
 
+import '../../dialogs/dialogs.dart';
+
 import '../../widgets/main_button.dart';
 import '../../widgets/shadow_text.dart';
 
 import '../../routes/default_page_route.dart';
+
+import '../../../helpers/data_provider.dart';
 
 import '../../../resources/app_colors.dart';
 
@@ -24,7 +28,7 @@ class StartPageState extends State<LoginPage> {
 
   FocusNode passwordNode = FocusNode();
 
-  String userName;
+  String email;
   String password;
 
   @override
@@ -33,10 +37,38 @@ class StartPageState extends State<LoginPage> {
 
   }
 
+  void onLogin() {
+    formKey.currentState.save();
+    if (formKey.currentState.validate()){
+      Dialogs.showLoader(context);
+      DataProvider.login(email, password).timeout(Duration(seconds: 10), 
+        onTimeout: (){
+          Navigator.pop(context);
+          Dialogs.showMessage(context, 'Server not responding', 'Please, try again later.', 'OK');
+        }
+      ).then(
+        (res) {
+          Navigator.pop(context);
+          if (res){
+              while (Navigator.canPop(context)) {
+                Navigator.pop(context);
+              }
+              Navigator.pushReplacement(
+                context, 
+                DefaultPageRoute(builder: (context) => MainPage()),
+              );  
+          } else {
+            Dialogs.showMessage(context, 'Unauthorized', 'Wrong email or password.', 'OK');
+          }
+        }
+      );
+    }
+  }
+
 
   String validateUserName(String userName){
     if (userName.isEmpty){
-      return 'Empty username';
+      return 'Empty email';
     }
   }
 
@@ -49,7 +81,7 @@ class StartPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: true,
+      resizeToAvoidBottomPadding: false,
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -111,18 +143,6 @@ class StartPageState extends State<LoginPage> {
                   child: Column(
                     children: <Widget>[ 
                       Container(
-                        height: 45.0,
-                        padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
-                          border: Border.all(color: Colors.white, width: 2.0),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(100.0),
-                            bottomRight: Radius.circular(100.0),
-                            topRight: Radius.circular(100.0),
-                            bottomLeft: Radius.circular(100.0)
-                          ),
-                        ),
                         child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
                           style: TextStyle(
@@ -131,22 +151,47 @@ class StartPageState extends State<LoginPage> {
                             fontFamily: 'Gilroy-SemiBold',
                           ),
                           decoration: InputDecoration(
+                            fillColor: Colors.white.withOpacity(0.2),
+                            filled: true,
+                            contentPadding: EdgeInsets.only(top: 10.0, bottom: 10.0, right: 20.0, left: 20.0),
                             hintStyle: TextStyle(
                               color: AppColors.textDarkPink.withOpacity(0.7),
                               fontSize: 20.0,
                               fontFamily: 'Gilroy-SemiBold',
                             ),
-                            focusedBorder: UnderlineInputBorder(      
-                              borderSide: BorderSide(color: Colors.transparent),   
+                            focusedBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white, 
+                                width: 1.5
+                              ),   
+                            ),  
+                            enabledBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white.withOpacity(0.6), 
+                                width: 1.5
+                              ),   
+                            ),  
+                            errorBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white.withOpacity(0.6), 
+                                width: 1.5
+                              ),   
+                            ),  
+                            focusedErrorBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white, 
+                                width: 1.5
+                              ),   
                             ),
-                            enabledBorder: UnderlineInputBorder(      
-                              borderSide: BorderSide(color: Colors.transparent),   
-                            ),   
                             hintText: 'Email'
                           ),
                           validator: validateUserName,
                           onSaved: (userName){
-                            this.userName = userName;
+                            this.email = userName;
                           },
                           onFieldSubmitted: (val){
                             FocusScope.of(context).requestFocus(passwordNode);
@@ -155,18 +200,6 @@ class StartPageState extends State<LoginPage> {
                       ),
                       Padding(padding: EdgeInsets.only(top: 10.0)),
                       Container(
-                        height: 45.0,
-                        padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
-                          border: Border.all(color: Colors.white, width: 2.0),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(100.0),
-                            bottomRight: Radius.circular(100.0),
-                            topRight: Radius.circular(100.0),
-                            bottomLeft: Radius.circular(100.0)
-                          ),
-                        ),
                         child: TextFormField(
                           focusNode: passwordNode,
                           obscureText: true,
@@ -176,17 +209,42 @@ class StartPageState extends State<LoginPage> {
                             fontFamily: 'Gilroy-SemiBold',
                           ),
                           decoration: InputDecoration(
+                            fillColor: Colors.white.withOpacity(0.2),
+                            filled: true,
+                            contentPadding: EdgeInsets.only(top: 10.0, bottom: 10.0, right: 20.0, left: 20.0),
                             hintStyle: TextStyle(
                               color: AppColors.textDarkPink.withOpacity(0.7),
                               fontSize: 20.0,
                               fontFamily: 'Gilroy-SemiBold',
                             ),
-                            focusedBorder: UnderlineInputBorder(      
-                              borderSide: BorderSide(color: Colors.transparent),   
+                            focusedBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white, 
+                                width: 1.5
+                              ),   
                             ),
-                            enabledBorder: UnderlineInputBorder(      
-                              borderSide: BorderSide(color: Colors.transparent),   
-                            ),   
+                            enabledBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white.withOpacity(0.6), 
+                                width: 1.5
+                              ),   
+                            ),  
+                            errorBorder:  OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white.withOpacity(0.6),
+                                width: 1.5
+                              ),   
+                            ),  
+                            focusedErrorBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white, 
+                                width: 1.5
+                              ),   
+                            ),  
                             hintText: 'Password'
                           ),
                           validator: validatePassword,
@@ -221,26 +279,18 @@ class StartPageState extends State<LoginPage> {
               Container(
                 margin: EdgeInsets.only(top: 70.0, left: 20.0, right: 20.0),
                 child: MainButton('LOG IN',
-                  onTap: (){
-                    while(Navigator.canPop(context)){
-                      Navigator.pop(context);
-                    }
-                    Navigator.pushReplacement(
-                      context, 
-                      DefaultPageRoute(builder: (context) => MainPage()),
-                    ); 
-                  }
+                  onTap: onLogin,
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(top: 30.0),
                 child: InkWell(
-                  onTap: (){
+                  onTap: () {
                     Navigator.push(
                       context, 
                       DefaultPageRoute(builder: (context) => SignUpPage()),
                     ); 
-                  },
+                  }, 
                   child: Text('SIGN UP',
                     style: TextStyle(
                       fontFamily: 'Gilroy-ExtraBold',

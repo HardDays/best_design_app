@@ -8,7 +8,7 @@ import '../../dialogs/dialogs.dart';
 import '../../routes/default_page_route.dart';
 
 import '../../../models/positive_affirmation.dart';
-import '../../../models/calendar_item.dart';
+import '../../../models/positive_item.dart';
 
 import '../../../helpers/data_provider.dart';
 
@@ -37,18 +37,26 @@ class PositiveListPageState extends State<PositiveListPage> {
 
   List<PositiveAffirmation> affirmations;
 
-  Map<String, PositiveAffirmation> personal;
+  Map<String, PositiveItem> personal;
 
   @override
   void initState() {    
     super.initState();
     
+    personal = DataProvider.getIdPersonalAffirmations();
+
     if (widget.category == PositiveCategory.personal){
-      affirmations = DataProvider.getPersonalAffirmations().values.toList();
+      update();
     } else {
       affirmations = DataProvider.getPositiveAffirmations()[widget.category];
     }
-    personal = DataProvider.getPersonalAffirmations();
+  }
+
+  void update(){
+    affirmations = [];
+    for (var item in personal.values){
+      affirmations.add(item.positiveAffirmation);
+    }
   }
 
   void onAdd(int index) async {
@@ -56,20 +64,20 @@ class PositiveListPageState extends State<PositiveListPage> {
       await Dialogs.showYesNo(context, 'Add to Personal Affirmations List?', affirmations[index].title, 'YES', 'CANCEL',
         onYes: (){
           setState(() {
-            DataProvider.addPersonalAffirmation(affirmations[index]);
-            personal = DataProvider.getPersonalAffirmations();
+            DataProvider.createPersonalAffirmation(PositiveItem(positiveAffirmation: affirmations[index]));
+            personal = DataProvider.getIdPersonalAffirmations();
             if (widget.category == PositiveCategory.personal){
-              affirmations = DataProvider.getPersonalAffirmations().values.toList();
+              update();
             }
           });
         }
       );
     } else {
       setState(() {
-        DataProvider.removePersonalAffirmation(affirmations[index].id);
-        personal = DataProvider.getPersonalAffirmations();
+        DataProvider.removePersonalAffirmation(PositiveItem(positiveAffirmation: affirmations[index]));
+        personal = DataProvider.getIdPersonalAffirmations();
         if (widget.category == PositiveCategory.personal){
-          affirmations = DataProvider.getPersonalAffirmations().values.toList();
+          update();
         }
       });
     }

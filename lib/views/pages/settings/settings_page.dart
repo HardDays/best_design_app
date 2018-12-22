@@ -3,13 +3,18 @@ import 'package:flutter/material.dart';
 import 'contact_us_page.dart';
 import 'profile_page.dart';
 import 'daily_affirmations_page.dart';
+import 'privacy_page.dart';
 
 import '../main/main_page.dart';
+
+import '../start/start_page.dart';
 
 import '../../widgets/main_button.dart';
 import '../../widgets/shadow_text.dart';
 
 import '../../routes/default_page_route.dart';
+
+import '../../../helpers/data_provider.dart';
 
 import '../../../resources/app_colors.dart';
 
@@ -56,7 +61,7 @@ class SettingsPageState extends State<SettingsPage> {
                 child: Text(name,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16.0
+                    fontSize: 18.0
                   ),
                 ),
               )
@@ -115,12 +120,25 @@ class SettingsPageState extends State<SettingsPage> {
                 buildSetting('Profile', ProfilePage()),
                 buildSetting('Daily Affirmations', DailyAffirmationsPage()),
                 buildSetting('Contact Us', ContactUsPage()),
-                buildSetting('Privacy Notice', Container())
+                buildSetting('Privacy Notice', PrivacyPage())
               ]
             ),
             Container(
               padding: EdgeInsets.only(left: 15.0, right: 15.0, bottom: 25.0),
-              child: MainButton('LOG OUT', bgColor: AppColors.iconBlue, textColor: Colors.white)
+              child: MainButton('LOG OUT', 
+                onTap: (){
+                  DataProvider.logout();
+                  while (Navigator.canPop(context)) {
+                    Navigator.pop(context);
+                  }
+                  Navigator.pushReplacement(
+                    context, 
+                    DefaultPageRoute(builder: (context) => StartPage()),
+                  );  
+                },
+                bgColor: AppColors.iconBlue, 
+                textColor: Colors.white
+              )
             )
           ],
         )

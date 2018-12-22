@@ -101,8 +101,116 @@ class AffirmationsPageState extends State<AffirmationsPage> {
             ),
             Padding(padding: EdgeInsets.only(top: 10.0)),
             Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context, 
+                    DefaultPageRoute(builder: (context) => 
+                      PositiveListPage(
+                        title: 'Personal Affirmations',
+                        category: PositiveCategory.personal
+                      )
+                    ),
+                  ); 
+                },
+                child: Container(
+                  padding: EdgeInsets.only(left: 5.0, right: 5.0, bottom: 5.0),
+                  width: MediaQuery.of(context).size.width,
+                  child: Stack(
+                    alignment: Alignment.bottomLeft,
+                    children: <Widget>[
+                      Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/personal_card_bg.png"),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration( 
+                          gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.center ,
+                          colors: [
+                              Colors.black.withOpacity(0.5),
+                              Colors.transparent
+                            ]
+                          ),
+                        )
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 10.0, left: 10.0),
+                        child: ShadowText('MY PERSONAL \nAFFIRMATIONS', 
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500
+                          ),
+                        ),
+                      )
+                    ]
+                  )
+                )
+              ),
+            ),
+            Expanded(
               child: Row(
                 children: <Widget>[
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context, 
+                        DefaultPageRoute(builder: (context) => 
+                          PositiveListPage(
+                            title: 'Abundance',
+                            category: PositiveCategory.abundance
+                          )
+                        ),
+                      ); 
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(left: 5.0, bottom: 5.0),
+                      width: MediaQuery.of(context).size.width * 0.33,
+                      child: Stack(
+                        alignment: Alignment.bottomLeft,
+                        children: <Widget>[
+                          Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage("assets/images/abundance_card_bg.png"),
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius: BorderRadius.all(Radius.circular(10.0))
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration( 
+                              gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.center ,
+                              colors: [
+                                  Colors.black.withOpacity(0.5),
+                                  Colors.transparent
+                                ]
+                              ),
+                            )
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(bottom: 10.0, left: 10.0),
+                            child: ShadowText('ABUNDANCE', 
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500
+                              ),
+                            ),
+                          )
+                        ]
+                      )
+                    )
+                  ),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -116,8 +224,8 @@ class AffirmationsPageState extends State<AffirmationsPage> {
                       ); 
                     },
                     child: Container(
-                      margin: EdgeInsets.only(left: 5.0, right: 5.0, bottom: 5.0),
-                      width: MediaQuery.of(context).size.width * 0.5 - 7.5,
+                      padding: EdgeInsets.only(left: 5.0, right: 5.0, bottom: 5.0),
+                      width: MediaQuery.of(context).size.width * 0.33,
                       child: Stack(
                         alignment: Alignment.bottomLeft,
                         children: <Widget>[
@@ -131,10 +239,22 @@ class AffirmationsPageState extends State<AffirmationsPage> {
                             ),
                           ),
                           Container(
+                            decoration: BoxDecoration( 
+                              gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.center ,
+                              colors: [
+                                  Colors.black.withOpacity(0.5),
+                                  Colors.transparent
+                                ]
+                              ),
+                            )
+                          ),
+                          Container(
                             margin: EdgeInsets.only(bottom: 10.0, left: 10.0),
                             child: ShadowText('HEALTH & \nBEAUTY', 
                               style: TextStyle(
-                                fontSize: 20.0,
+                                fontSize: 14.0,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500
                               ),
@@ -157,8 +277,8 @@ class AffirmationsPageState extends State<AffirmationsPage> {
                       ); 
                     },
                     child: Container(
-                      margin: EdgeInsets.only(right: 5.0, bottom: 5.0),
-                      width: MediaQuery.of(context).size.width * 0.5 - 7.5,
+                      padding: EdgeInsets.only(right: 2.0, bottom: 5.0),
+                      width: MediaQuery.of(context).size.width * 0.33,
                       child: Stack(
                         alignment: Alignment.bottomLeft,
                         children: <Widget>[
@@ -172,98 +292,22 @@ class AffirmationsPageState extends State<AffirmationsPage> {
                             ),
                           ),
                           Container(
+                            decoration: BoxDecoration( 
+                              gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.center ,
+                              colors: [
+                                  Colors.black.withOpacity(0.7),
+                                  Colors.transparent
+                                ]
+                              ),
+                            )
+                          ),
+                          Container(
                             margin: EdgeInsets.only(bottom: 10.0, left: 10.0),
                             child: ShadowText('LOVE', 
                               style: TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500
-                              ),
-                            ),
-                          )
-                        ]
-                      )
-                    )
-                  ),
-                ],  
-              ),
-            ),
-            Expanded(
-              child: Row(
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context, 
-                        DefaultPageRoute(builder: (context) => 
-                          PositiveListPage(
-                            title: 'Abundance',
-                            category: PositiveCategory.abundance
-                          )
-                        ),
-                      ); 
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(left: 5.0, right: 5.0, bottom: 5.0),
-                      width: MediaQuery.of(context).size.width * 0.5 - 7.5,
-                      child: Stack(
-                        alignment: Alignment.bottomLeft,
-                        children: <Widget>[
-                          Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/abundance_card_bg.png"),
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius: BorderRadius.all(Radius.circular(10.0))
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(bottom: 10.0, left: 10.0),
-                            child: ShadowText('ABUNDANCE', 
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500
-                              ),
-                            ),
-                          )
-                        ]
-                      )
-                    )
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context, 
-                        DefaultPageRoute(builder: (context) => 
-                          PositiveListPage(
-                            title: 'Personal Affirmations',
-                            category: PositiveCategory.personal
-                          )
-                        ),
-                      ); 
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(right: 5.0, bottom: 5.0),
-                      width: MediaQuery.of(context).size.width * 0.5 - 7.5,
-                      child: Stack(
-                        alignment: Alignment.bottomLeft,
-                        children: <Widget>[
-                          Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/personal_card_bg.png"),
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius: BorderRadius.all(Radius.circular(10.0))
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(bottom: 10.0, left: 10.0),
-                            child: ShadowText('MY PERSONAL \nAFFIRMATIONS', 
-                              style: TextStyle(
-                                fontSize: 20.0,
+                                fontSize: 14.0,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500
                               ),

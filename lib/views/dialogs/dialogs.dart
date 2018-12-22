@@ -13,6 +13,31 @@ import '../../models/calendar_item.dart';
 import '../../resources/app_colors.dart';
 
 class Dialogs {
+
+  static void showLoader(BuildContext context){
+    showDialog(context: context, 
+      child: WillPopScope(
+        onWillPop: (){
+          Navigator.pop(context);
+        },
+        child: Container(
+          alignment: Alignment.center,
+          width: MediaQuery.of(context).size.width * 1.0,
+          height: MediaQuery.of(context).size.height * 1.0,
+          child: Container(
+            color: Colors.transparent,
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.transparent,
+              valueColor: AlwaysStoppedAnimation(AppColors.appBarBlue)
+            ),
+          )
+        )           
+      )
+    );
+  }
   
   static Future showThemedDialog(BuildContext context, Widget child) async {
     return await showDialog(context: context, 
@@ -21,6 +46,7 @@ class Dialogs {
           child: Material(
             color: Colors.transparent,
             child: Container(
+              alignment: Alignment.center,
               width: MediaQuery.of(context).size.width * 1.0,
               height: MediaQuery.of(context).size.height * 1.0,
               color: Colors.black.withOpacity(0.4),
@@ -28,6 +54,7 @@ class Dialogs {
                 alignment: Alignment.center,
                 padding: EdgeInsets.only(left: 20.0, right: 20.0),
                 child: Stack(
+                  alignment: Alignment.center,
                   children:[
                     GestureDetector(
                       onTap: (){

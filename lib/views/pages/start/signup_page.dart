@@ -1,11 +1,23 @@
+import 'dart:io';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'login_page.dart';
+
+import '../main/main_page.dart';
 
 import '../../widgets/main_button.dart';
 import '../../widgets/shadow_text.dart';
 
 import '../../routes/default_page_route.dart';
+
+import '../../dialogs/dialogs.dart';
+
+import '../../../models/user.dart';
+
+import '../../../helpers/data_provider.dart';
 
 import '../../../resources/app_colors.dart';
 
@@ -20,28 +32,91 @@ class SignUpPageState extends State<SignUpPage> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   FocusNode passwordNode = FocusNode();
+  FocusNode firstNameNode = FocusNode();
+  FocusNode lastNameNode = FocusNode();
+  FocusNode passwordConfirmNode = FocusNode();
 
-  String userName;
+  File image;
+
+  String email;
   String password;
+  String firstName;
+  String lastName;
+  String passwordConfirm;
 
   @override
   void initState() {    
     super.initState(); 
-
   }
 
-
-  String validateUserName(String userName){
-    if (userName.isEmpty){
-      return 'Empty username';
+  
+  String validateEmail(String email){
+    if (!RegExp(r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+').hasMatch(email) || email.length > 75){
+      return 'Wrong email format';
     }
   }
 
-  String validatePassword(String pass){
-    if (pass.isEmpty){
-      return 'Empty password';
+  String validatePasswords(String pass){
+    if (pass.length < 7){
+      return 'Password too short';
+    } else if (!RegExp(r'^[a-zA-Z0-9\._-]+$').hasMatch(pass)){
+      return 'Your password should contain only a..z, 0..9, ._- symbols';
+    } else if (password != passwordConfirm){
+      return 'Passwords not matched';
     }
-  } 
+  }
+  String validateName(String name){
+    if (name.length < 1 || name.length > 50){
+      return 'Name length should be from 1 to 50';
+    }
+  }
+
+  void onSignUp(){
+      formKey.currentState.save();
+    if (formKey.currentState.validate()){
+      Dialogs.showLoader(context);
+      DataProvider.createUser(
+        User(
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          password: password,
+          passwordConfirmation: passwordConfirm,
+          base64: image != null ? base64Encode(image.readAsBytesSync()) : null
+        )
+      ).timeout(Duration(seconds: 10), 
+        onTimeout: (){
+          Navigator.pop(context);
+          Dialogs.showMessage(context, 'Server not responding', 'Please, try again later.', 'OK');
+        }
+      ).then(
+        (res) {
+          Navigator.pop(context);
+          if (res){
+            while (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            }
+            Navigator.pushReplacement(
+              context, 
+              DefaultPageRoute(builder: (context) => MainPage()),
+            );  
+          } else {
+            Dialogs.showMessage(context, 'Email already taken', 'Please try again.', 'OK');
+          }
+        }
+      );
+    }
+  }
+
+  void onImageSelect() async {
+    var res = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      if (res != null){
+        image = res;                                        
+      }
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -94,9 +169,26 @@ class SignUpPageState extends State<SignUpPage> {
                         fit: BoxFit.fitHeight,
                       ),
                     ),
-                    child: IconButton(
-                      iconSize: 30.0,
-                      icon: Icon(Icons.photo_camera, color: Colors.white),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [ 
+                        image != null ? 
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: FileImage(image),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ): 
+                        Container(),
+                        IconButton(
+                          onPressed: onImageSelect,
+                          iconSize: 30.0,
+                          icon: Icon(Icons.photo_camera, color: Colors.white),
+                        )
+                      ]
                     ),
                   ),
                   Flexible(
@@ -135,18 +227,6 @@ class SignUpPageState extends State<SignUpPage> {
                   child: Column(
                     children: <Widget>[ 
                       Container(
-                        height: 45.0,
-                        padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
-                          border: Border.all(color: Colors.white, width: 2.0),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(100.0),
-                            bottomRight: Radius.circular(100.0),
-                            topRight: Radius.circular(100.0),
-                            bottomLeft: Radius.circular(100.0)
-                          ),
-                        ),
                         child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
                           style: TextStyle(
@@ -155,110 +235,163 @@ class SignUpPageState extends State<SignUpPage> {
                             fontFamily: 'Gilroy-SemiBold',
                           ),
                           decoration: InputDecoration(
+                            fillColor: Colors.white.withOpacity(0.2),
+                            filled: true,
+                            contentPadding: EdgeInsets.only(top: 10.0, bottom: 10.0, right: 20.0, left: 20.0),
                             hintStyle: TextStyle(
                               color: AppColors.textDarkPink.withOpacity(0.7),
                               fontSize: 20.0,
                               fontFamily: 'Gilroy-SemiBold',
                             ),
-                            focusedBorder: UnderlineInputBorder(      
-                              borderSide: BorderSide(color: Colors.transparent),   
+                            focusedBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white, 
+                                width: 1.5
+                              ),   
                             ),
-                            enabledBorder: UnderlineInputBorder(      
-                              borderSide: BorderSide(color: Colors.transparent),   
-                            ),   
+                            enabledBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white.withOpacity(0.6), 
+                                width: 1.5
+                              ),   
+                            ),  
+                            errorBorder:  OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white.withOpacity(0.6),
+                                width: 1.5
+                              ),   
+                            ),  
+                            focusedErrorBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white, 
+                                width: 1.5
+                              ),   
+                            ),    
                             hintText: 'Email'
                           ),
-                          validator: validateUserName,
-                          onSaved: (userName){
-                            this.userName = userName;
+                          validator: validateEmail,
+                          onSaved: (email){
+                            this.email = email;
                           },
                           onFieldSubmitted: (val){
-                            FocusScope.of(context).requestFocus(passwordNode);
+                            FocusScope.of(context).requestFocus(firstNameNode);
                           },
                         ),
                       ),
                       Padding(padding: EdgeInsets.only(top: 10.0)),
                       Container(
-                        height: 45.0,
-                        padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
-                          border: Border.all(color: Colors.white, width: 2.0),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(100.0),
-                            bottomRight: Radius.circular(100.0),
-                            topRight: Radius.circular(100.0),
-                            bottomLeft: Radius.circular(100.0)
-                          ),
-                        ),
                         child: TextFormField(
-                          keyboardType: TextInputType.emailAddress,
+                          keyboardType: TextInputType.text,
+                          focusNode: firstNameNode,
                           style: TextStyle(
                             color: AppColors.textDarkPink,
                             fontSize: 20.0,
                             fontFamily: 'Gilroy-SemiBold',
                           ),
                           decoration: InputDecoration(
+                            fillColor: Colors.white.withOpacity(0.2),
+                            filled: true,
+                            contentPadding: EdgeInsets.only(top: 10.0, bottom: 10.0, right: 20.0, left: 20.0),
                             hintStyle: TextStyle(
                               color: AppColors.textDarkPink.withOpacity(0.7),
                               fontSize: 20.0,
                               fontFamily: 'Gilroy-SemiBold',
                             ),
-                            focusedBorder: UnderlineInputBorder(      
-                              borderSide: BorderSide(color: Colors.transparent),   
+                            focusedBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white, 
+                                width: 1.5
+                              ),   
                             ),
-                            enabledBorder: UnderlineInputBorder(      
-                              borderSide: BorderSide(color: Colors.transparent),   
-                            ),   
-                            hintText: 'Email'
+                            enabledBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white.withOpacity(0.6), 
+                                width: 1.5
+                              ),   
+                            ),  
+                            errorBorder:  OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white.withOpacity(0.6),
+                                width: 1.5
+                              ),   
+                            ),  
+                            focusedErrorBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white, 
+                                width: 1.5
+                              ),   
+                            ),    
+                            hintText: 'First Name'
                           ),
-                          validator: validateUserName,
+                          validator: validateName,
                           onSaved: (userName){
-                            this.userName = userName;
+                            this.firstName = userName;
                           },
                           onFieldSubmitted: (val){
-                            FocusScope.of(context).requestFocus(passwordNode);
+                            FocusScope.of(context).requestFocus(lastNameNode);
                           },
                         ),
                       ),
                       Padding(padding: EdgeInsets.only(top: 10.0)),
                       Container(
-                        height: 45.0,
-                        padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
-                          border: Border.all(color: Colors.white, width: 2.0),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(100.0),
-                            bottomRight: Radius.circular(100.0),
-                            topRight: Radius.circular(100.0),
-                            bottomLeft: Radius.circular(100.0)
-                          ),
-                        ),
                         child: TextFormField(
-                          keyboardType: TextInputType.emailAddress,
+                          focusNode: lastNameNode,
+                          keyboardType: TextInputType.text,
                           style: TextStyle(
                             color: AppColors.textDarkPink,
                             fontSize: 20.0,
                             fontFamily: 'Gilroy-SemiBold',
                           ),
                           decoration: InputDecoration(
+                            fillColor: Colors.white.withOpacity(0.2),
+                            filled: true,
+                            contentPadding: EdgeInsets.only(top: 10.0, bottom: 10.0, right: 20.0, left: 20.0),
                             hintStyle: TextStyle(
                               color: AppColors.textDarkPink.withOpacity(0.7),
                               fontSize: 20.0,
                               fontFamily: 'Gilroy-SemiBold',
                             ),
-                            focusedBorder: UnderlineInputBorder(      
-                              borderSide: BorderSide(color: Colors.transparent),   
+                            focusedBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white, 
+                                width: 1.5
+                              ),   
                             ),
-                            enabledBorder: UnderlineInputBorder(      
-                              borderSide: BorderSide(color: Colors.transparent),   
-                            ),   
-                            hintText: 'Email'
+                            enabledBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white.withOpacity(0.6), 
+                                width: 1.5
+                              ),   
+                            ),  
+                            errorBorder:  OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white.withOpacity(0.6),
+                                width: 1.5
+                              ),   
+                            ),  
+                            focusedErrorBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white, 
+                                width: 1.5
+                              ),   
+                            ),  
+                            hintText: 'Last Name'
                           ),
-                          validator: validateUserName,
-                          onSaved: (userName){
-                            this.userName = userName;
+                          validator: validateName,
+                          onSaved: (lastName){
+                            this.lastName = lastName;
                           },
                           onFieldSubmitted: (val){
                             FocusScope.of(context).requestFocus(passwordNode);
@@ -267,62 +400,6 @@ class SignUpPageState extends State<SignUpPage> {
                       ),
                       Padding(padding: EdgeInsets.only(top: 10.0)),
                       Container(
-                        height: 45.0,
-                        padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
-                          border: Border.all(color: Colors.white, width: 2.0),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(100.0),
-                            bottomRight: Radius.circular(100.0),
-                            topRight: Radius.circular(100.0),
-                            bottomLeft: Radius.circular(100.0)
-                          ),
-                        ),
-                        child: TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          style: TextStyle(
-                            color: AppColors.textDarkPink,
-                            fontSize: 20.0,
-                            fontFamily: 'Gilroy-SemiBold',
-                          ),
-                          decoration: InputDecoration(
-                            hintStyle: TextStyle(
-                              color: AppColors.textDarkPink.withOpacity(0.7),
-                              fontSize: 20.0,
-                              fontFamily: 'Gilroy-SemiBold',
-                            ),
-                            focusedBorder: UnderlineInputBorder(      
-                              borderSide: BorderSide(color: Colors.transparent),   
-                            ),
-                            enabledBorder: UnderlineInputBorder(      
-                              borderSide: BorderSide(color: Colors.transparent),   
-                            ),   
-                            hintText: 'Email'
-                          ),
-                          validator: validateUserName,
-                          onSaved: (userName){
-                            this.userName = userName;
-                          },
-                          onFieldSubmitted: (val){
-                            FocusScope.of(context).requestFocus(passwordNode);
-                          },
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.only(top: 10.0)),
-                      Container(
-                        height: 45.0,
-                        padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
-                          border: Border.all(color: Colors.white, width: 2.0),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(100.0),
-                            bottomRight: Radius.circular(100.0),
-                            topRight: Radius.circular(100.0),
-                            bottomLeft: Radius.circular(100.0)
-                          ),
-                        ),
                         child: TextFormField(
                           focusNode: passwordNode,
                           obscureText: true,
@@ -332,22 +409,105 @@ class SignUpPageState extends State<SignUpPage> {
                             fontFamily: 'Gilroy-SemiBold',
                           ),
                           decoration: InputDecoration(
+                            fillColor: Colors.white.withOpacity(0.2),
+                            filled: true,
+                            contentPadding: EdgeInsets.only(top: 10.0, bottom: 10.0, right: 20.0, left: 20.0),
                             hintStyle: TextStyle(
                               color: AppColors.textDarkPink.withOpacity(0.7),
                               fontSize: 20.0,
                               fontFamily: 'Gilroy-SemiBold',
                             ),
-                            focusedBorder: UnderlineInputBorder(      
-                              borderSide: BorderSide(color: Colors.transparent),   
+                            focusedBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white, 
+                                width: 1.5
+                              ),   
                             ),
-                            enabledBorder: UnderlineInputBorder(      
-                              borderSide: BorderSide(color: Colors.transparent),   
-                            ),   
+                            enabledBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white.withOpacity(0.6), 
+                                width: 1.5
+                              ),   
+                            ),  
+                            errorBorder:  OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white.withOpacity(0.6),
+                                width: 1.5
+                              ),   
+                            ),  
+                            focusedErrorBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white, 
+                                width: 1.5
+                              ),   
+                            ),    
                             hintText: 'Password'
                           ),
-                          validator: validatePassword,
+                          validator: validatePasswords,
                           onSaved: (password){
                             this.password = password;
+                          },
+                          onFieldSubmitted: (val){
+                            FocusScope.of(context).requestFocus(passwordConfirmNode);
+                          },
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.only(top: 10.0)),
+                      Container(
+                        child: TextFormField(
+                          focusNode: passwordConfirmNode,
+                          obscureText: true,
+                          style: TextStyle(
+                            color: AppColors.textDarkPink,
+                            fontSize: 20.0,
+                            fontFamily: 'Gilroy-SemiBold',
+                          ),
+                          decoration: InputDecoration(
+                            fillColor: Colors.white.withOpacity(0.2),
+                            filled: true,
+                            contentPadding: EdgeInsets.only(top: 10.0, bottom: 10.0, right: 20.0, left: 20.0),
+                            hintStyle: TextStyle(
+                              color: AppColors.textDarkPink.withOpacity(0.7),
+                              fontSize: 20.0,
+                              fontFamily: 'Gilroy-SemiBold',
+                            ),
+                            focusedBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white, 
+                                width: 1.5
+                              ),   
+                            ),
+                            enabledBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white.withOpacity(0.6), 
+                                width: 1.5
+                              ),   
+                            ),  
+                            errorBorder:  OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white.withOpacity(0.6),
+                                width: 1.5
+                              ),   
+                            ),  
+                            focusedErrorBorder: OutlineInputBorder(      
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              borderSide: BorderSide(
+                                color: Colors.white, 
+                                width: 1.5
+                              ),   
+                            ),  
+                            hintText: 'Confirm Password'
+                          ),
+                          validator: validatePasswords,
+                          onSaved: (password){
+                            this.passwordConfirm = password;
                           },
                         ),
                       ),
@@ -358,7 +518,9 @@ class SignUpPageState extends State<SignUpPage> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
-                child: MainButton('SiGN UP'),
+                child: MainButton('SiGN UP',
+                  onTap: onSignUp,
+                ),
               ),
               Container(
                 margin: EdgeInsets.only(top: 25.0, bottom: 15.0),

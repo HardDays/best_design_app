@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'calendar_page.dart';
 import 'care_list_page.dart';
@@ -15,6 +16,8 @@ import '../../routes/default_page_route.dart';
 
 import '../../../helpers/data_provider.dart';
 
+import '../../../models/settings.dart';
+
 import '../../../resources/app_colors.dart';
 import '../../../resources/app_text.dart';
 
@@ -30,7 +33,18 @@ class MainPageState extends State<MainPage> {
   void initState() {    
     super.initState();
 
-    DataProvider.init();
+    var date = DateTime.now();
+
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      if (DataProvider.getSettings().lastMonthlyDate.day < date.day){
+        Dialogs.showMessage(context, 
+          '${DateFormat('MMMM').format(date)} Daily Affirmation', 
+          DataProvider.getMonthAffirmations()[date.month - 1], 
+          'OK'
+        );
+        DataProvider.setSettings(Settings(lastMonthlyDate: date));
+      }
+    });
   }
 
   Widget buildItem(String name, String image, Function onInfo, Widget page) {
@@ -141,21 +155,45 @@ class MainPageState extends State<MainPage> {
           ),
         ),
         actions: <Widget>[
-          InkWell(
-            onTap: (){
-              Navigator.push(
-                context, 
-                DefaultPageRoute(builder: (context) => SettingsPage()),
-              ); 
-            },
-            child: Container(
-              width: 40.0,
-              height: 40.0,
-              decoration: BoxDecoration(
-                color: Colors.green,
-                shape: BoxShape.circle
+          Container(
+            width: 70.0,
+            height: 100.0,
+            child: InkWell(
+              onTap: (){
+                // for (var list in DataProvider.positiveAffirmations.values){
+                //   for (var item in list){
+                //     debugPrint('PositiveAffirmation.new(title: \'${item.title}\', category: \'${item.category}\')\nitem.save');
+                //   }
+                // }
+                // return;
+                Navigator.push(
+                  context, 
+                  DefaultPageRoute(builder: (context) => SettingsPage()),
+                ); 
+              },
+              child: Container(
+                margin: EdgeInsets.only(top: 5.0, bottom: 7.0, right: 14.0, left: 14.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 3.0),      
+                  ),
+                  child:  DataProvider.currentUser?.imageId != null ?
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(DataProvider.getImage(DataProvider.currentUser?.imageId))
+                      )
+                    )  
+                  ) : 
+                  Container(
+                    child: Icon(Icons.person),
+                  )
+                )
               ),
-            ),
+            )
           )
         ],
       ),

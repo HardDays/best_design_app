@@ -53,13 +53,11 @@ class AddToCalendarDialogState extends State<AddToCalendarDialog> {
     if (widget.calendarItem != null) {
       item = widget.calendarItem;
 
-      item.id = 'kek';
-
       endEnabled = item.endMode == EndMode.never ? EndMode.never : null;
       repeatEnabled = item.repeatMode == RepeatMode.noRepeat ? RepeatMode.noRepeat : null;
     } else {
-      var date = DateTime.now().year < 2019 ? DateTime(2019, 1, 1) : DateTime.now();
-
+      //var date = DateTime.now().year < 2019 ? DateTime(2019, 1, 1) : DateTime.now();
+      var date = DateTime.now();
       item = CalendarItem();
       item.careAffirmation = widget.careAffirmation;
       item.beginDate = DateTime(date.year, date.month, date.day);
@@ -270,7 +268,7 @@ class AddToCalendarDialogState extends State<AddToCalendarDialog> {
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(top: 20.0, left: 40.0, right: 40.0),
-            child: Text('Add to Calendar',
+            child: Text(widget.calendarItem == null ? 'Add to Calendar' : 'Edit Calendar',
               style: TextStyle(
                 fontSize: 18.0,
                 fontFamily: 'Gilroy-Bold',
@@ -478,7 +476,7 @@ class AddToCalendarDialogState extends State<AddToCalendarDialog> {
             margin: EdgeInsets.only(top: 20.0, bottom: 20.0, right: 50.0, left: 50.0),
             child: InkWell(
               onTap: (){
-                DataProvider.addCalendarItem(item);
+                DataProvider.createCalendarItem(item);
                 Navigator.pop(context);
               },
               child: Text('OK',
@@ -501,7 +499,7 @@ class AddToCalendarDialogState extends State<AddToCalendarDialog> {
                     onTap: () {
                       Dialogs.showYesNo(context, 'Delete affirmtion?', item.careAffirmation.title, 'YES', 'NO',
                         onYes: () {
-                          DataProvider.removeCalendarItem(item.careAffirmation.id);
+                          DataProvider.removeCalendarItem(item);
                           Navigator.pop(context);
                         },
                         onNo: () {

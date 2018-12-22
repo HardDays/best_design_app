@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'bucket_add_page.dart';
+
 import '../../widgets/main_button.dart';
 import '../../widgets/shadow_text.dart';
 
@@ -9,7 +11,7 @@ import '../../dialogs/dialogs.dart';
 import '../../routes/default_page_route.dart';
 
 import '../../../models/care_affirmation.dart';
-import '../../../models/calendar_item.dart';
+import '../../../models/bucket_item.dart';
 
 import '../../../helpers/data_provider.dart';
 
@@ -24,10 +26,12 @@ class BucketListPage extends StatefulWidget {
 
 class BucketListPageState extends State<BucketListPage> {
   
+  List<BucketItem> bucketItems;
+
   @override
   void initState() {    
     super.initState();
-
+    bucketItems = DataProvider.getBucketItems();
   }
 
   @override
@@ -83,18 +87,17 @@ class BucketListPageState extends State<BucketListPage> {
               //height: MediaQuery.of(context).size.height * 0.6,
               child: SingleChildScrollView(
                 child: Column(  
-                  children: List.generate(5, 
+                  children: List.generate(bucketItems.length, 
                     (ind) {
                       return Container(
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.8),
+                          color: Colors.white.withOpacity(0.45),
                           borderRadius: BorderRadius.all(Radius.circular(5.0))
                         ),
                         margin: EdgeInsets.only(
-                          top: ind == 0 ? 10.0 : 0.0, 
+                          top: 6.0, 
                           left: 10.0, 
                           right: 10.0, 
-                          bottom: 3.0
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,12 +105,12 @@ class BucketListPageState extends State<BucketListPage> {
                             Flexible(
                               fit: FlexFit.tight,
                               child: Container(
-                                margin: EdgeInsets.only(left: 10.0),
-                                child: Text('Bucket Item',
-                                  maxLines: 1,
+                                margin: EdgeInsets.only(left: 15.0),
+                                child: Text(bucketItems[ind].bucketIdea != null ? bucketItems[ind].bucketIdea.title : bucketItems[ind].title,
+                                  maxLines: 3,
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontFamily: 'Gilroy',
+                                    fontFamily: 'Gilroy-Bold',
                                     fontSize: 18.0
                                   ),
                                 ),
@@ -145,6 +148,16 @@ class BucketListPageState extends State<BucketListPage> {
                   shape: BoxShape.circle
                 ),
                 child: IconButton(
+                  onPressed: () async {
+                    Navigator.push(
+                      context, 
+                      DefaultPageRoute(builder: (context) => BucketAddPage()),
+                    ).then((res){
+                      setState(() {
+                        bucketItems = DataProvider.getBucketItems();                        
+                      });
+                    });
+                  },
                   iconSize: 40.0,
                   icon: Icon(Icons.add,
                     color: AppColors.textBlue,
