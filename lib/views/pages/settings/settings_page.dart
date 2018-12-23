@@ -14,6 +14,8 @@ import '../../widgets/shadow_text.dart';
 
 import '../../routes/default_page_route.dart';
 
+import '../../../models/settings.dart';
+
 import '../../../helpers/data_provider.dart';
 
 import '../../../resources/app_colors.dart';
@@ -25,6 +27,8 @@ class SettingsPage extends StatefulWidget {
 }
 
 class SettingsPageState extends State<SettingsPage> {
+
+  Settings settings;
 
   @override
   void initState() {    

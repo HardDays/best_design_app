@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter_picker/flutter_picker.dart';
 
 import '../../widgets/main_button.dart';
 import '../../widgets/shadow_text.dart';
 
 import '../../routes/default_page_route.dart';
+
+import '../../../models/settings.dart';
+
+import '../../../helpers/data_provider.dart';
 
 import '../../../resources/app_colors.dart';
 
@@ -15,11 +21,21 @@ class DailyAffirmationsPage extends StatefulWidget {
 
 class DailyAffirmationsPageState extends State<DailyAffirmationsPage> {
   
+  Settings settings;
 
   @override
   void initState() {    
     super.initState(); 
+
+    settings = DataProvider.getSettings();
   } 
+
+  @override
+  void dispose(){
+    super.dispose();
+
+    DataProvider.calculateDates();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,11 +99,14 @@ class DailyAffirmationsPageState extends State<DailyAffirmationsPage> {
                             ),
                           ),
                           Switch(
-                            value: true,
+                            value: settings.dailyReminders,
                             activeColor: AppColors.iconBlue,
                             activeTrackColor: Colors.grey.withOpacity(0.3),
                             onChanged: (value) {
-
+                              setState(() {
+                                settings.dailyReminders = value;     
+                                DataProvider.setSettings(settings);                                   
+                              });
                             },
                           )
                         ],
@@ -111,35 +130,56 @@ class DailyAffirmationsPageState extends State<DailyAffirmationsPage> {
                         ),
                       ),
                       Padding(padding: EdgeInsets.only(top: 10.0)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text('Morning',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16.0
+                      GestureDetector(
+                        onTap: () {
+                          Picker(
+                            adapter: DateTimePickerAdapter(
+                              type: PickerDateTimeType.kHM_AP, 
+                              yearBegin: settings.morningTime.year, 
+                              value: settings.morningTime
                             ),
-                          ),
-                          Container(
-                            child: Row(
-                              children: <Widget>[
-                                Text('12:00AM',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16.0
-                                  ),
-                                ),
-                                Padding(padding: EdgeInsets.only(left: 5.0)),
-                                Text('•',
-                                  style: TextStyle(
-                                    color: Colors.black.withOpacity(0.3),
-                                    fontSize: 16.0
-                                  ),
-                                ),
-                              ],
+                            hideHeader: true,
+                            title: Text('Select morning time'),
+                            confirmText: 'OK',
+                            cancelText: 'CANCEL',
+                            onConfirm: (Picker picker, List value) {
+                              setState(() {
+                                settings.morningTime = (picker.adapter as DateTimePickerAdapter).value;
+                                DataProvider.setSettings(settings);        
+                              });
+                            },
+                          ).showDialog(context); 
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text('Morning',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16.0
+                              ),
                             ),
-                          )
-                        ],
+                            Container(
+                              child: Row(
+                                children: <Widget>[
+                                  Text(DateFormat('hh:mma').format(settings.morningTime),
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16.0
+                                    ),
+                                  ),
+                                  Padding(padding: EdgeInsets.only(left: 5.0)),
+                                  Text('•',
+                                    style: TextStyle(
+                                      color: Colors.black.withOpacity(0.3),
+                                      fontSize: 16.0
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        )
                       ),
                       Padding(padding: EdgeInsets.only(top: 15.0)),
                       Row(
@@ -151,10 +191,29 @@ class DailyAffirmationsPageState extends State<DailyAffirmationsPage> {
                               fontSize: 16.0
                             ),
                           ),
-                          Container(
+                           GestureDetector(
+                            onTap: () {
+                              Picker(
+                                adapter: DateTimePickerAdapter(
+                                  type: PickerDateTimeType.kHM_AP, 
+                                  yearBegin: settings.morningTime.year, 
+                                  value: settings.afternoonTime
+                                ),
+                                hideHeader: true,
+                                title: Text('Select afternoon time'),
+                                confirmText: 'OK',
+                                cancelText: 'CANCEL',
+                                onConfirm: (Picker picker, List value) {
+                                  setState(() {
+                                    settings.afternoonTime = (picker.adapter as DateTimePickerAdapter).value;
+                                    DataProvider.setSettings(settings);        
+                                  });
+                                },
+                              ).showDialog(context); 
+                            },
                             child: Row(
                               children: <Widget>[
-                                Text('12:00AM',
+                                Text(DateFormat('hh:mma').format(settings.afternoonTime),
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 16.0
@@ -182,10 +241,29 @@ class DailyAffirmationsPageState extends State<DailyAffirmationsPage> {
                               fontSize: 16.0
                             ),
                           ),
-                          Container(
+                           GestureDetector(
+                            onTap: () {
+                              Picker(
+                                adapter: DateTimePickerAdapter(
+                                  type: PickerDateTimeType.kHM_AP, 
+                                  yearBegin: settings.morningTime.year, 
+                                  value: settings.eveningTime
+                                ),
+                                hideHeader: true,
+                                title: Text('Select evening time'),
+                                confirmText: 'OK',
+                                cancelText: 'CANCEL',
+                                onConfirm: (Picker picker, List value) {
+                                  setState(() {
+                                    settings.eveningTime = (picker.adapter as DateTimePickerAdapter).value;
+                                    DataProvider.setSettings(settings);        
+                                  });
+                                },
+                              ).showDialog(context); 
+                            },
                             child: Row(
                               children: <Widget>[
-                                Text('12:00AM',
+                                Text(DateFormat('hh:mma').format(settings.eveningTime),
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 16.0
@@ -232,11 +310,14 @@ class DailyAffirmationsPageState extends State<DailyAffirmationsPage> {
                             ),
                           ),
                           Switch(
-                            value: true,
+                            value: settings.playSound,
                             activeColor: AppColors.iconBlue,
                             activeTrackColor: Colors.grey.withOpacity(0.3),
                             onChanged: (value) {
-
+                              setState(() {
+                                settings.playSound = value;                   
+                                DataProvider.setSettings(settings);            
+                              });
                             },
                           )
                         ],

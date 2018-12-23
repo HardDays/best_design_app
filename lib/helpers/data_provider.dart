@@ -813,9 +813,13 @@ CareAffirmation(id: '9580407f-51be-42dc-9b39-fa0c54406d73', title: 'Go on a Yoga
 
   static Future updateNotifications() async {
     notifications.cancelAll();
+
+    var settings = DataProvider.getSettings();
     
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails('uplifting_notify', 'uplifting_notify', 'uplifting_notify');
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails('Uplifting women', 'Uplifting women', 'Uplifting women', 
+      playSound: settings.playSound,
+    );
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails(presentSound: settings.playSound);
     var details = NotificationDetails(androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     
     int id = 0;
@@ -827,7 +831,7 @@ CareAffirmation(id: '9580407f-51be-42dc-9b39-fa0c54406d73', title: 'Go on a Yoga
         if (dt.difference(DateTime.now()).inMinutes > 1 && dt.difference(DateTime.now()).inDays < 7){
           notifications.schedule(
             id,
-            'Uplifting',
+            'Uplifting women',
             item.careAffirmation.title,
             dt,
             details
