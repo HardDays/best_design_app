@@ -24,8 +24,8 @@ class Settings {
 
   factory Settings.fromJson(Map<String, dynamic> json) {
     return Settings(
-      playSound: json['play_sound'] == 'true',
-      dailyReminders: json['daily_reminders'] == 'true',
+      playSound: json['play_sound'] == null ? true : json['play_sound'] == 'true',
+      dailyReminders: json['daily_reminders'] == null ? true : json['daily_reminders'] == 'true',
       lastMonthlyDate: json['last_monthly_date'] != 'null' && json['last_monthly_date'] != null ? DateTime.parse(json['last_monthly_date']) : DateTime.now().subtract(Duration(days: 3)),
       morningTime: json['morning_time'] != 'null' && json['morning_time'] != null ? DateTime.parse(json['morning_time']) : DateTime(1980, 1, 1, 10, 0),
       afternoonTime: json['afternoon_time'] != 'null' && json['afternoon_time'] != null ? DateTime.parse(json['afternoon_time']) : DateTime(1980, 1, 1, 12, 0),

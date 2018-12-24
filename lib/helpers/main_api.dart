@@ -8,10 +8,11 @@ import '../models/user.dart';
 import '../models/calendar_item.dart';
 import '../models/positive_item.dart';
 import '../models/bucket_item.dart';
+import '../models/report.dart';
 
 class MainAPI {
   
-  //static const String url = 'http://192.168.0.105:3000';
+ //static const String url = 'http://192.168.0.105:3000';
   static const String url = 'https://upliftingg.herokuapp.com';
 
   static const String auth = '/auth';
@@ -22,6 +23,7 @@ class MainAPI {
   static const String calendarItems = '/calendar_items';
   static const String positiveItems = '/positive_items';
   static const String bucketItems = '/bucket_items';
+  static const String reports = '/reports';
 
   static String token;
 
@@ -69,14 +71,40 @@ class MainAPI {
     var res = await http.post(url + users, 
       body:  json.encode(user.toJson()),
       headers: {
-        'Content-type' : 'application/json', 
+        'Content-type': 'application/json', 
       }
     );
-    //TODO: better error check
     if (res.statusCode == HttpStatus.created){
-     return User.fromJson(json.decode(res.body));
+      return User.fromJson(json.decode(res.body));
     } 
   }
+
+  static Future<User> updateUser(User user) async {
+    var res = await http.put(url + users, 
+      body:  json.encode(user.toUpdateJson()),
+      headers: {
+        'Content-type': 'application/json', 
+        'Authorization': token
+      }
+    );
+    if (res.statusCode == HttpStatus.ok){
+      return User.fromJson(json.decode(res.body));
+    } 
+  }
+
+  static Future<User> getMe() async {
+    var res = await http.get(url + users + me, 
+      headers: {
+        'Content-type': 'application/json', 
+        'Authorization': token
+      }
+    );
+    if (res.statusCode == HttpStatus.ok){
+      return User.fromJson(json.decode(res.body));
+    } 
+  }
+
+  // CALEDAR
 
   static Future<List<CalendarItem>> getCalendarItems() async {
     var res = await http.get(url + calendarItems, 
@@ -221,6 +249,20 @@ class MainAPI {
         'Authorization': token
       }
     );
+  }
+
+  // REPORTS
+
+  static Future<bool> createReport(Report report) async {
+    var res = await http.post(url + reports, 
+      body:  json.encode(report.toJson()),
+      headers: {
+        'Content-type': 'application/json', 
+      }
+    );
+    if (res.statusCode == HttpStatus.created){
+      return true;
+    } 
   }
 
   static String getImage(String id){
