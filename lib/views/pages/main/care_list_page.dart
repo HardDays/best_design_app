@@ -110,9 +110,11 @@ class CareListPageState extends State<CareListPage> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
+          color: Colors.transparent,
           image: DecorationImage(
             image: AssetImage(monthImages[date.month - 1]),
-            fit: BoxFit.fill,
+            fit: BoxFit.fitWidth,
+            colorFilter: ColorFilter.mode(Colors.white.withOpacity(0.5), BlendMode.dstATop)
           ),
         ),
         child: Column(  
@@ -141,7 +143,7 @@ class CareListPageState extends State<CareListPage> {
                     child: Text(phrases[date.month - 1],
                       style: TextStyle(
                         color: Colors.white,
-                        fontFamily: 'Gilroy',
+                        fontFamily: 'Gilroy-Bold',
                         fontSize: 14.0
                       ),
                     ),

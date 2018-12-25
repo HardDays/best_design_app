@@ -37,7 +37,7 @@ class MainPageState extends State<MainPage> {
 
     WidgetsBinding.instance.addPostFrameCallback((_){
       if (DataProvider.getSettings().lastMonthlyDate.day < date.day){
-        Dialogs.showMessage(context, 
+        Dialogs.showDailyRemainder(context, 
           '${DateFormat('MMMM').format(date)} Daily Affirmation', 
           DataProvider.getMonthAffirmations()[date.month - 1], 
           'OK'
@@ -205,7 +205,7 @@ class MainPageState extends State<MainPage> {
             children: <Widget>[
               buildItem('Calendar', 'assets/images/calendar_card_bg.png', () => Dialogs.showCalendarInfo(context), CalendarPage()),
               buildItem('Self Love/Self Care List', 'assets/images/self_love_card_bg.png', () => Dialogs.showCareListInfo(context), CareListPage()),
-              buildItem('Positive Affirmation', 'assets/images/positive_card_bg.png', () => Dialogs.showPositiveInfo(context), AffirmationsPage()),
+              buildItem('Positive Affirmations', 'assets/images/positive_card_bg.png', () => Dialogs.showPositiveInfo(context), AffirmationsPage()),
               buildItem('Bucket List', 'assets/images/bucket_list_card_bg.png', () => Dialogs.showBucketListInfo(context), BucketListPage())
             ],
           ),

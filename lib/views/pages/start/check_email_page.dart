@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'signup_page.dart';
 
 import '../../widgets/main_button.dart';
+import '../../widgets/shadow_text.dart';
 
 import '../../routes/default_page_route.dart';
 
@@ -72,11 +73,11 @@ class CheckEmailPageState extends State<CheckEmailPage> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 0.0, left: 15.0, right: 15.0),
-                child: Text('Uplifting Women',
+                child: ShadowText('Uplifting Women',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'ClickerScript',
-                    fontSize: 40.0
+                    color: AppColors.titleLightPink,
+                    fontFamily: 'Norican',
+                    fontSize: 36.0
                   ),
                 ),
               ),
@@ -93,7 +94,7 @@ class CheckEmailPageState extends State<CheckEmailPage> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 60.0, left: 20.0, right: 20.0),
-                child: MainButton('CONTIUE',
+                child: MainButton('CONTINUE',
                   onTap: (){
                     Navigator.pop(context);
                     Navigator.pop(context); 

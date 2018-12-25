@@ -68,13 +68,13 @@ class StartPageState extends State<LoginPage> {
 
   String validateUserName(String userName){
     if (userName.isEmpty){
-      return 'Empty email';
+      return 'Email required';
     }
   }
 
   String validatePassword(String pass){
     if (pass.isEmpty){
-      return 'Empty password';
+      return 'Password required';
     }
   } 
 

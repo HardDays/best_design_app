@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'check_email_page.dart';
 
 import '../../widgets/main_button.dart';
+import '../../widgets/shadow_text.dart';
 
 import '../../routes/default_page_route.dart';
 
@@ -82,11 +83,11 @@ class ForgotPasswordPageState extends State<ForgotPasswordPage> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 0.0, left: 15.0, right: 15.0),
-                child: Text('Uplifting Women',
+                child: ShadowText('Uplifting Women',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'ClickerScript',
-                    fontSize: 40.0
+                    color: AppColors.titleLightPink,
+                    fontFamily: 'Norican',
+                    fontSize: 36.0
                   ),
                 ),
               ),
