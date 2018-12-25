@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'views/pages/start/start_page.dart';
 import 'views/pages/start/splash_page.dart';
@@ -22,6 +23,7 @@ class App extends StatefulWidget {
 class AppState extends State<App> {
 
   bool loading = true;
+  bool authorized = false;
 
   @override
   void initState() {
@@ -29,20 +31,41 @@ class AppState extends State<App> {
     
     DataProvider.init().then(
       (v){
-        setState(() {
-          //loading = false;          
-        });
+        DataProvider.isAuthorized().then(
+          (res) {
+            setState(() {
+              authorized = res;       
+              if (!authorized){
+                DataProvider.logout();
+              }
+              loading = false; 
+            });
+          }
+        ).timeout(Duration(seconds: 7), onTimeout: (){
+          setState(() {
+            authorized = true;
+            loading = false;        
+          });
+        });          
       }
     );
-    Timer(Duration(seconds: 3), (){
-      setState(() {
-        loading = false;          
-      });
-    });
+    // Timer(Duration(seconds: 3), () {
+    //   setState(() {
+    //     //loading = false;          
+    //   });
+    // });
+
+
   }
  
   @override
   Widget build(BuildContext context) {
+        SystemChrome.setPreferredOrientations(
+      [
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]
+    );
     if (loading){
       return MaterialApp(
         title: 'Uplifting Women',
@@ -51,7 +74,7 @@ class AppState extends State<App> {
         home: SplashPage()
       );
     }
-    if (DataProvider.isAuthorized()) {
+    if (authorized) {
       return MaterialApp(
         title: 'Uplifting Women',
         theme: ThemeData(

@@ -25,7 +25,7 @@ class User {
     this.imageId
   });
 
-  Map <String, dynamic> toJson(){
+  Map <String, dynamic> toJson() {
     Map <String, dynamic> res = {
       'id': id,
       'token': token,
@@ -34,11 +34,24 @@ class User {
       'email': email,
       'password': password,
       'password_confirmation': passwordConfirmation,
+      'image_id': imageId,
     };
     if (base64 != null){
       res['image'] = {
         'base64': base64
       };
+    }
+    return res;
+  }
+
+  Map <String, dynamic> toUpdateJson() {
+    var current = toJson();
+    var res = Map <String, dynamic>();
+
+    for (var key in current.keys){
+      if (current[key] != null && current[key].isNotEmpty){
+        res[key] = current[key];
+      }
     }
     return res;
   }

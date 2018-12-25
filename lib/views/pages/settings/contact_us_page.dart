@@ -1,9 +1,18 @@
+import 'dart:io';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../widgets/main_button.dart';
 import '../../widgets/shadow_text.dart';
 
 import '../../routes/default_page_route.dart';
+import '../../dialogs/dialogs.dart';
+
+import '../../../models/report.dart';
+
+import '../../../helpers/data_provider.dart';
 
 import '../../../resources/app_colors.dart';
 
@@ -18,10 +27,12 @@ class ContactUsPageState extends State<ContactUsPage> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   FocusNode emailNode = FocusNode();
-  FocusNode passwordNode = FocusNode();
+  FocusNode subjectNode = FocusNode();
+  FocusNode messageNode = FocusNode();
 
   String email;
-  String password;
+  String subject;
+  String message;
 
   @override
   void initState() {    
@@ -31,17 +42,50 @@ class ContactUsPageState extends State<ContactUsPage> {
       setState(() {        
       });
     });
+    subjectNode.addListener((){
+      setState(() {        
+      });
+    });
+    messageNode.addListener((){
+      setState(() {        
+      });
+    });
   }
 
-  String validateUserName(String userName){
-    if (userName.isEmpty){
-      return 'Empty username';
+  void onSend(){
+    formKey.currentState.save();
+    if (formKey.currentState.validate()){
+      Dialogs.showLoader(context);
+      DataProvider.createReport(
+        Report(
+          subject: subject,
+          message: message,
+          email: email
+        )
+      ).timeout(Duration(seconds: 10), 
+        onTimeout: (){
+          Navigator.pop(context);
+          Dialogs.showMessage(context, 'Server not responding', 'Please, try again later.', 'OK');
+        }
+      ).then(
+        (res) async {
+          Navigator.pop(context);
+          await Dialogs.showMessage(context, 'Thank you!', 'We will review your message soon.', 'OK');
+          Navigator.pop(context);
+        }
+      );
     }
   }
 
-  String validatePassword(String pass){
-    if (pass.isEmpty){
-      return 'Empty password';
+  String validateEmail(String email){
+    if (!RegExp(r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+').hasMatch(email) || email.length > 75){
+      return 'Wrong email format';
+    }
+  }
+
+  String validateField(String field){
+    if (field.isEmpty){
+      return 'Please, enter something';
     }
   } 
 
@@ -92,17 +136,17 @@ class ContactUsPageState extends State<ContactUsPage> {
                         Container(
                           height: 45.0,
                           child: TextFormField(
-                            focusNode: emailNode,
-                            keyboardType: TextInputType.emailAddress,
+                            focusNode: subjectNode,
+                            keyboardType: TextInputType.text,
                             style: TextStyle(
-                              color: emailNode.hasFocus ? AppColors.iconBlue : Colors.grey.withOpacity(0.7),
+                              color: subjectNode.hasFocus ? AppColors.iconBlue : Colors.grey.withOpacity(0.7),
                               fontSize: 20.0,
                               fontFamily: 'Gilroy-SemiBold',
                             ),
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 20.0, right: 20.0),
                               hintStyle: TextStyle(
-                                color: emailNode.hasFocus ? AppColors.iconBlue : Colors.grey.withOpacity(0.7),
+                                color: subjectNode.hasFocus ? AppColors.iconBlue : Colors.grey.withOpacity(0.7),
                                 fontSize: 20.0,
                                 fontFamily: 'Gilroy-SemiBold',
                               ),
@@ -120,20 +164,34 @@ class ContactUsPageState extends State<ContactUsPage> {
                                   width: 1.5
                                 ),   
                               ),
-                              hintText: 'Email'
+                              errorBorder:  OutlineInputBorder(   
+                                borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                                borderSide: BorderSide(
+                                  color: Colors.grey.withOpacity(0.7), 
+                                  width: 1.5
+                                ),   
+                              ),  
+                              focusedErrorBorder: OutlineInputBorder(   
+                                borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                                borderSide: BorderSide(
+                                  color: AppColors.iconBlue, 
+                                  width: 1.5
+                                ),  
+                              ),    
+                              hintText: 'Subject'
                             ),
-                            validator: validateUserName,
-                            onSaved: (userName){
+                            validator: validateField,
+                            onSaved: (value){
                               setState(() {
-                                this.email = userName;
+                                subject = value;
                               });
                             },
                             onFieldSubmitted: (val){
-                              FocusScope.of(context).requestFocus(passwordNode);
+                              FocusScope.of(context).requestFocus(emailNode);
                             },
                           ),
                         ),
-                        Padding(padding: EdgeInsets.only(top: 10.0)),
+                        Padding(padding: EdgeInsets.only(top: 20.0)),
                         Container(
                           height: 45.0,
                           child: TextFormField(
@@ -165,35 +223,48 @@ class ContactUsPageState extends State<ContactUsPage> {
                                   width: 1.5
                                 ),   
                               ),
+                              errorBorder:  OutlineInputBorder(      
+                                borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                                borderSide: BorderSide(
+                                  color: Colors.grey.withOpacity(0.7), 
+                                  width: 1.5
+                                ),   
+                              ),  
+                              focusedErrorBorder: OutlineInputBorder(      
+                                borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                                borderSide: BorderSide(
+                                  color: AppColors.iconBlue, 
+                                  width: 1.5
+                                ),  
+                              ),    
                               hintText: 'Email'
                             ),
-                            validator: validateUserName,
-                            onSaved: (userName){
+                            validator: validateEmail,
+                            onSaved: (value){
                               setState(() {
-                                this.email = userName;
+                                email = value;
                               });
                             },
                             onFieldSubmitted: (val){
-                              FocusScope.of(context).requestFocus(passwordNode);
+                              FocusScope.of(context).requestFocus(messageNode);
                             },
                           ),
                         ),
-                        Padding(padding: EdgeInsets.only(top: 10.0)),
+                        Padding(padding: EdgeInsets.only(top: 20.0)),
                         Container(
                           child: TextFormField(
-                            
-                            //focusNode: emailNode,
+                            focusNode: messageNode,
                             keyboardType: TextInputType.multiline,
                             maxLines: 7,
                             style: TextStyle(
-                              color: emailNode.hasFocus ? AppColors.iconBlue : Colors.grey.withOpacity(0.7),
+                              color: messageNode.hasFocus ? AppColors.iconBlue : Colors.grey.withOpacity(0.7),
                               fontSize: 20.0,
                               fontFamily: 'Gilroy-SemiBold',
                             ),
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 20.0, right: 20.0),
                               hintStyle: TextStyle(
-                                color: emailNode.hasFocus ? AppColors.iconBlue : Colors.grey.withOpacity(0.7),
+                                color: messageNode.hasFocus ? AppColors.iconBlue : Colors.grey.withOpacity(0.7),
                                 fontSize: 20.0,
                                 fontFamily: 'Gilroy-SemiBold',
                               ),
@@ -211,16 +282,27 @@ class ContactUsPageState extends State<ContactUsPage> {
                                   width: 1.5
                                 ),   
                               ),
-                              hintText: 'Email'
+                              errorBorder:  OutlineInputBorder(      
+                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                borderSide: BorderSide(
+                                  color: Colors.grey.withOpacity(0.7), 
+                                  width: 1.5
+                                ),   
+                              ),  
+                              focusedErrorBorder: OutlineInputBorder(      
+                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                borderSide: BorderSide(
+                                  color: AppColors.iconBlue, 
+                                  width: 1.5
+                                ),  
+                              ),    
+                              hintText: 'Message'
                             ),
-                            validator: validateUserName,
-                            onSaved: (userName){
+                            validator: validateField,
+                            onSaved: (value){
                               setState(() {
-                                this.email = userName;
+                                message = value;
                               });
-                            },
-                            onFieldSubmitted: (val){
-                              FocusScope.of(context).requestFocus(passwordNode);
                             },
                           ),
                         ),
@@ -231,7 +313,11 @@ class ContactUsPageState extends State<ContactUsPage> {
                 ),
                 Container(
                   padding: EdgeInsets.only(left: 29.0, right: 29.0, bottom: 25.0, top: 25.0),
-                  child: MainButton('SEND', bgColor: AppColors.iconBlue, textColor: Colors.white)
+                  child: MainButton('SEND', 
+                    bgColor: AppColors.iconBlue, 
+                    textColor: Colors.white,
+                    onTap: onSend,
+                  )
                 )
               ],
             ),

@@ -49,7 +49,6 @@ class SignUpPageState extends State<SignUpPage> {
     super.initState(); 
   }
 
-  
   String validateEmail(String email){
     if (!RegExp(r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+').hasMatch(email) || email.length > 75){
       return 'Wrong email format';
@@ -116,7 +115,6 @@ class SignUpPageState extends State<SignUpPage> {
       }
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
