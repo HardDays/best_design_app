@@ -28,7 +28,7 @@ class DataProvider {
     'The Law of Attraction Brings Only Good Into My Life',
     'I Am Grateful for All the Love in My Life',
     'I Allow Positive Changes to Come into My Life',
-    'I Happily Claim My Own Powers',
+    'I Am Grateful for All of My Blessings',
     ];
 
   static List<String> careTitles = [
