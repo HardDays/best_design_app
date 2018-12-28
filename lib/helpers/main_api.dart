@@ -24,6 +24,7 @@ class MainAPI {
   static const String positiveItems = '/positive_items';
   static const String bucketItems = '/bucket_items';
   static const String reports = '/reports';
+  static const String password = '/password';
 
   static String token;
 
@@ -77,6 +78,16 @@ class MainAPI {
     if (res.statusCode == HttpStatus.created){
       return User.fromJson(json.decode(res.body));
     } 
+  }
+
+  static Future resetPassword(String email) async {
+    var res = await http.post(url + users + password, 
+      body:  json.encode({'email': email}),
+      headers: {
+        'Content-type': 'application/json', 
+      }
+    );
+    var t = 0;
   }
 
   static Future<User> updateUser(User user) async {

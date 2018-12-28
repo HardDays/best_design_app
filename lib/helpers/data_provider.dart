@@ -753,35 +753,6 @@ CareAffirmation(id: '9580407f-51be-42dc-9b39-fa0c54406d73', title: 'Go on a Yoga
       }
     }
 
-    // var time = Time(item.alertTime.hour, item.alertTime.minute, 0);
-    // var androidPlatformChannelSpecifics = AndroidNotificationDetails('uplifting_notify', 'uplifting_notify', 'uplifting_notify');
-    // var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-    // var details = NotificationDetails(androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    // notifications.showDailyAtTime(
-    //   0,
-    //   'Uplifting',
-    //   item.careAffirmation.title,
-    //   Time(19, 26, 00),
-    //   details);
-    //  notifications.show(1, 'title', 'body', details);
-
-    // if (item.repeatMode == RepeatMode.noRepeat) {
-    //   notifications.schedule(
-    //     0,
-    //     'Uplifting',
-    //     item.careAffirmation.title,
-    //     DateTime(item.beginDate.year, item.beginDate.month, item.beginDate.day, item.alertTime.hour, item.alertTime.minute),
-    //     details);
-    // } else if (item.repeatMode == RepeatMode.daily) {
-    //   notifications.showWeeklyAtDayAndTime(
-    //     1, 
-    //     'Uplifting',
-    //     item.careAffirmation.title,
-    //     Day(1),
-    //     time,
-    //     details);
-    // }
-
     idCalendar[item.careAffirmation.id] = item;
     calculateDates();
   }
@@ -822,13 +793,14 @@ CareAffirmation(id: '9580407f-51be-42dc-9b39-fa0c54406d73', title: 'Go on a Yoga
     }
     updateNotifications();
   }
+  
 
   static Future updateNotifications() async {
     notifications.cancelAll();
 
     var settings = DataProvider.getSettings();
     
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails('Uplifting women', 'Uplifting women', 'Uplifting women', 
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails('Uplifting Women', 'Uplifting Women', 'Uplifting Women', 
       playSound: settings.playSound,
     );
     var iOSPlatformChannelSpecifics = IOSNotificationDetails(presentSound: settings.playSound);
@@ -843,7 +815,7 @@ CareAffirmation(id: '9580407f-51be-42dc-9b39-fa0c54406d73', title: 'Go on a Yoga
         if (dt.difference(DateTime.now()).inMinutes > 1 && dt.difference(DateTime.now()).inDays < 7){
           notifications.schedule(
             id,
-            'Uplifting women',
+            'Uplifting Women',
             item.careAffirmation.title,
             dt,
             details
@@ -856,21 +828,27 @@ CareAffirmation(id: '9580407f-51be-42dc-9b39-fa0c54406d73', title: 'Go on a Yoga
     if (settings.dailyReminders != false) {
       var dates = [settings.afternoonTime, settings.eveningTime, settings.morningTime];
       for (var date in dates) {
-        var dt = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, date.hour, date.minute);
-        if (dt.difference(DateTime.now()).inMinutes > 1){
-          notifications.schedule(
-            id,
-            'Uplifting women',
-            DataProvider.getMonthAffirmations()[dt.month - 1],
-            dt,
-            details
-          );
+        if (date != null){
+          var dt = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, date.hour, date.minute);
+          if (dt.difference(DateTime.now()).inMinutes > 1){
+            notifications.schedule(
+              id,
+              'Uplifting Women',
+              DataProvider.getMonthAffirmations()[dt.month - 1],
+              dt,
+              details
+            );
+          }
         }
         id++;
       }
     }
 
 
+  }
+
+  static void resetPassword(String email){
+    MainAPI.resetPassword(email);
   }
 
   static void createCalendarItem(CalendarItem item){
