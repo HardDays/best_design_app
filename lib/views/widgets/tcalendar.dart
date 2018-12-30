@@ -111,17 +111,17 @@ class CalendarState extends State<Calendar> {
                   padding: EdgeInsets.only(top: 12.0),
                   onPressed: (){
                     setState(() {
-                      //if (monthDate.month > 1){
+                      if (monthDate.month > 1){
                         monthDate = DateTime(monthDate.year, monthDate.month - 1, 1);
                         if (widget.onMonthChange != null){
                           widget.onMonthChange(monthDate);
                         }
-                      //}
+                      }
                     });
                   },
                   icon: Icon(Icons.arrow_back_ios,
-                    //color: monthDate.month == 1 ? Colors.transparent : Colors.black,
-                    color: Colors.black,
+                    color: monthDate.month == 1 ? Colors.transparent : Colors.black,
+                    //color: Colors.black,
                   ),
                 ),
                 Container(

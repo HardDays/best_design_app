@@ -793,7 +793,6 @@ CareAffirmation(id: '9580407f-51be-42dc-9b39-fa0c54406d73', title: 'Go on a Yoga
     }
     updateNotifications();
   }
-  
 
   static Future updateNotifications() async {
     notifications.cancelAll();
