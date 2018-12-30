@@ -18,7 +18,7 @@ class DataProvider {
 
   static List<String> monthAffirmations = [
     'I Love myself',
-    'I Love, Honor and Appreciate Ny Body',
+    'I Love, Honor and Appreciate My Body',
     'I Accept Perfect Health Now',
     'I Am Confident',
     'I Only Attract Healthy Relationships in My Life',

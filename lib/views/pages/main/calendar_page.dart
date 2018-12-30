@@ -259,7 +259,7 @@ class CalendarPageState extends State<CalendarPage> {
                   var id = auth.ClientId("28733438167-napvbspic05elhc41fj3nddemb4tlk64.apps.googleusercontent.com", 'yIyY4pEqy8yFcqugmlyfRo6S');
                   var scopes = [gcal.CalendarApi.CalendarScope];
 
-                  auth.clientViaUserConsent(id, scopes, (url){
+                  auth.clientViaUserConsent(id, scopes, (url) {
                     Navigator.push(
                       context, 
                       DefaultPageRoute(builder: (context) => GoogleAuthPage(url: url)),
@@ -315,7 +315,11 @@ class CalendarPageState extends State<CalendarPage> {
                       }
                     }
                     client.close();
-                  });
+                  }, 
+                    onError: (){
+
+                    }
+                  );
                 },
                 bgColor: Colors.white, 
                 textColor: AppColors.iconBlue
