@@ -18,18 +18,18 @@ class DataProvider {
 
   static List<String> monthAffirmations = [
     'I Love myself',
-    'I Love, honor and appreciate my body',
-    'I Accept perfect health now',
-    'I Am confident',
-    'I Only attract healthy relationships in my life',
-    'I Am a magnet for money',
-    'Abundance flows freely into my life',
-    'I Move from forgiveness to love',
-    'The Law of attraction brings only good into my life',
-    'I Am grateful for all the love in my life',
-    'I Allow positive changes to come into my life',
-    'I Happily claim my on powers',
-  ];
+    'I Love, Honor and Appreciate Ny Body',
+    'I Accept Perfect Health Now',
+    'I Am Confident',
+    'I Only Attract Healthy Relationships in My Life',
+    'I Am a Magnet for Money',
+    'Abundance Flows Freely into My Life',
+    'I Move from Forgiveness to Love',
+    'The Law of Attraction Brings Only Good Into My Life',
+    'I Am Grateful for All the Love in My Life',
+    'I Allow Positive Changes to Come into My Life',
+    'I Am Grateful for All of My Blessings',
+    ];
 
   static List<String> careTitles = [
     'January is Being Healthy Month',
@@ -314,10 +314,10 @@ CareAffirmation(id: '9580407f-51be-42dc-9b39-fa0c54406d73', title: 'Go on a Yoga
   CareAffirmation(id: 'e7f203fa-896c-4449-b986-89a27def85d4', title: 'Make New Friends', month: 12),
   CareAffirmation(id: 'e58a85e7-5fee-4354-895b-0f11a51b0b16', title: 'Spend Less Money', month: 12),
   CareAffirmation(id: '2936d563-c231-482d-8519-abdcc005ae9f', title: 'Focus on Relationships', month: 12),
-  CareAffirmation(id: '0c0fa73e-61c6-4988-95e0-9a2c134a45c8', title: 'Self item = Care', month: 12),
+  CareAffirmation(id: '0c0fa73e-61c6-4988-95e0-9a2c134a45c8', title: 'Self Care', month: 12),
   CareAffirmation(id: 'c608d1d6-3e4c-4d90-8d65-21dc7cc1516f', title: 'More Time on Wellbeing', month: 12),
   CareAffirmation(id: '6c100250-0900-48e4-9252-0b04a988f5cd', title: 'Do More Exciting Things', month: 12),
-  CareAffirmation(id: 'd7ad7c7a-ad16-4fb8-be10-4bd8ba3023a8', title: 'item = Career Advancement', month: 12),
+  CareAffirmation(id: 'd7ad7c7a-ad16-4fb8-be10-4bd8ba3023a8', title: 'Career Advancement', month: 12),
   CareAffirmation(id: '6eb8a954-8dd7-437a-b14c-e1db1e95e04f', title: 'Work-Life Balance', month: 12),
   CareAffirmation(id: '53ef6af0-4d48-4fb1-8cd0-887c0d586c76', title: 'Make a Difference', month: 12),
   CareAffirmation(id: '202b6f3c-1b71-4ef2-86c5-02685453920e', title: 'Find Growth Opportunities', month: 12),
@@ -484,19 +484,18 @@ CareAffirmation(id: '9580407f-51be-42dc-9b39-fa0c54406d73', title: 'Go on a Yoga
   BucketIdea(id: '2fb25349-70f2-4790-9812-8e21caecade8', title: 'Go volcano boarding in Nicaragua'),
   BucketIdea(id: '4ebb9a71-672f-4cd2-8183-704cbae68690', title: 'See the Coliseum in Rome'),
   BucketIdea(id: '285b74e4-5dca-4bb9-b09e-8716a7e58f96', title: 'See the Grand Canyon and walk the Skywalk'),
-  BucketIdea(id: '8f2fe2bf-0520-484b-9995-f98a33cb543c', title: 'See the spring tulips in Woodburn�s Tulip Festival, Oregon'),
+  BucketIdea(id: '8f2fe2bf-0520-484b-9995-f98a33cb543c', title: 'See the spring tulips in Woodburn\'s Tulip Festival, Oregon'),
   BucketIdea(id: '22b8662f-70e7-4a1a-9a9b-a10591ef8834', title: 'See the Tower of London'),
   BucketIdea(id: '75dd0b0c-1777-49f5-b189-7553de7841f8', title: 'Swim in the Mediterranean sea'),
-  BucketIdea(id: '08cab255-040f-4e67-b9aa-87f0d7b789db', title: 'Swim in the world�s largest pool in San Alfonso del Mar resort in'),
-  BucketIdea(id: '65358517-24a5-44ea-ac8a-644d064b1ef2', title: 'Algarrobo, Chile'),
+  BucketIdea(id: '08cab255-040f-4e67-b9aa-87f0d7b789db', title: 'Swim in the world\'s largest pool in San Alfonso del Mar resort in Algarrobo, Chile'),
   BucketIdea(id: 'a02121c0-8a98-4268-900e-5da1318c982b', title: 'Visit all Disneyland resorts'),
-  BucketIdea(id: '70d58bb1-e27a-41b3-847f-846d8c4225bf', title: 'Visit Canada�s Niagra Falls'),
+  BucketIdea(id: '70d58bb1-e27a-41b3-847f-846d8c4225bf', title: 'Visit Canada\'s Niagra Falls'),
   BucketIdea(id: 'd1a1754c-b19a-4aed-9a2e-72e40071293a', title: 'Visit Old Havana and other places in Cuba'),
-  BucketIdea(id: '58454d8c-3ce2-4aad-9bb4-c2049a8a9731', title: 'Visit St Mark�s Basilica'),
+  BucketIdea(id: '58454d8c-3ce2-4aad-9bb4-c2049a8a9731', title: 'Visit St Mark\'s Basilica'),
   BucketIdea(id: '27f0d039-5e8b-42ac-a37c-5a392c8ec433', title: 'Visit the Palace of Versailles in France'),
   BucketIdea(id: 'd40e7a77-0bad-43ff-b342-3658bf2a78e5', title: 'Stick my toes in every great lake'),
   BucketIdea(id: 'd3607dab-23eb-4ec2-9326-be2fda0f94e7', title: 'Visit a winery in France'),
-  BucketIdea(id: '635c517e-6b68-4bc2-99c2-85bbe7631b7b', title: 'Visit Romania and see Dracula�s Castle'),
+  BucketIdea(id: '635c517e-6b68-4bc2-99c2-85bbe7631b7b', title: 'Visit Romania and see Dracula\'s Castle'),
   BucketIdea(id: 'ae04926e-7598-4d8f-abf0-8b3d1f5b8c37', title: 'Learn how to snowboard'),
   BucketIdea(id: '4dd3691e-3d1d-4e25-a384-5e6fa8d390f7', title: 'Learn how to ice-skate'),
   BucketIdea(id: '4a9e71be-b34b-4fbf-9130-7b62b939fea5', title: 'Learn how to ski'),
@@ -505,7 +504,7 @@ CareAffirmation(id: '9580407f-51be-42dc-9b39-fa0c54406d73', title: 'Go on a Yoga
   BucketIdea(id: '79cb0af8-0433-449c-8f33-b299b39f0eec', title: 'Learn to sign'),
   BucketIdea(id: '0358336f-ed9a-44ee-adab-6abde06b7035', title: 'Learn to juggle'),
   BucketIdea(id: 'd1f11ea2-bcac-4dea-86e2-df3cf23f83c3', title: 'Learn at least five magic tricks'),
-  BucketIdea(id: '9b2a3de7-54f6-4e43-b641-cdb8d8609d2e', title: 'Get a master�s degree'),
+  BucketIdea(id: '9b2a3de7-54f6-4e43-b641-cdb8d8609d2e', title: 'Get a master\'s degree'),
   BucketIdea(id: 'fbda6964-c997-45de-ae0f-e39d1b0ee5d1', title: 'Get a phD'),
   BucketIdea(id: 'e4327d05-4637-4e71-9e8a-dc35b54b93e0', title: 'Buy first home'),
   BucketIdea(id: '9bab8eff-d7b9-4f6e-a2dc-ee97cddbf320', title: 'Buy an investment property'),
@@ -754,35 +753,6 @@ CareAffirmation(id: '9580407f-51be-42dc-9b39-fa0c54406d73', title: 'Go on a Yoga
       }
     }
 
-    // var time = Time(item.alertTime.hour, item.alertTime.minute, 0);
-    // var androidPlatformChannelSpecifics = AndroidNotificationDetails('uplifting_notify', 'uplifting_notify', 'uplifting_notify');
-    // var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-    // var details = NotificationDetails(androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    // notifications.showDailyAtTime(
-    //   0,
-    //   'Uplifting',
-    //   item.careAffirmation.title,
-    //   Time(19, 26, 00),
-    //   details);
-    //  notifications.show(1, 'title', 'body', details);
-
-    // if (item.repeatMode == RepeatMode.noRepeat) {
-    //   notifications.schedule(
-    //     0,
-    //     'Uplifting',
-    //     item.careAffirmation.title,
-    //     DateTime(item.beginDate.year, item.beginDate.month, item.beginDate.day, item.alertTime.hour, item.alertTime.minute),
-    //     details);
-    // } else if (item.repeatMode == RepeatMode.daily) {
-    //   notifications.showWeeklyAtDayAndTime(
-    //     1, 
-    //     'Uplifting',
-    //     item.careAffirmation.title,
-    //     Day(1),
-    //     time,
-    //     details);
-    // }
-
     idCalendar[item.careAffirmation.id] = item;
     calculateDates();
   }
@@ -823,13 +793,14 @@ CareAffirmation(id: '9580407f-51be-42dc-9b39-fa0c54406d73', title: 'Go on a Yoga
     }
     updateNotifications();
   }
+  
 
   static Future updateNotifications() async {
     notifications.cancelAll();
 
     var settings = DataProvider.getSettings();
     
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails('Uplifting women', 'Uplifting women', 'Uplifting women', 
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails('Uplifting Women', 'Uplifting Women', 'Uplifting Women', 
       playSound: settings.playSound,
     );
     var iOSPlatformChannelSpecifics = IOSNotificationDetails(presentSound: settings.playSound);
@@ -844,7 +815,7 @@ CareAffirmation(id: '9580407f-51be-42dc-9b39-fa0c54406d73', title: 'Go on a Yoga
         if (dt.difference(DateTime.now()).inMinutes > 1 && dt.difference(DateTime.now()).inDays < 7){
           notifications.schedule(
             id,
-            'Uplifting women',
+            'Uplifting Women',
             item.careAffirmation.title,
             dt,
             details
@@ -854,24 +825,30 @@ CareAffirmation(id: '9580407f-51be-42dc-9b39-fa0c54406d73', title: 'Go on a Yoga
       }
     }
     
-    if (settings.dailyReminders) {
+    if (settings.dailyReminders != false) {
       var dates = [settings.afternoonTime, settings.eveningTime, settings.morningTime];
       for (var date in dates) {
-        var dt = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, date.hour, date.minute);
-        if (dt.difference(DateTime.now()).inMinutes > 1){
-          notifications.schedule(
-            id,
-            'Uplifting women',
-            DataProvider.getMonthAffirmations()[dt.month - 1],
-            dt,
-            details
-          );
+        if (date != null){
+          var dt = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, date.hour, date.minute);
+          if (dt.difference(DateTime.now()).inMinutes > 1){
+            notifications.schedule(
+              id,
+              'Uplifting Women',
+              DataProvider.getMonthAffirmations()[dt.month - 1],
+              dt,
+              details
+            );
+          }
         }
         id++;
       }
     }
 
 
+  }
+
+  static void resetPassword(String email){
+    MainAPI.resetPassword(email);
   }
 
   static void createCalendarItem(CalendarItem item){

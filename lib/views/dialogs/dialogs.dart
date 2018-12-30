@@ -111,9 +111,9 @@ class Dialogs {
                 ),
                 children: <TextSpan>[
                   TextSpan(
-                    text: 'Calendar The calendar is set up to remind you to love, spoil and make yourself a priority even if it’s for 5-10 minutes. You have the option to choose from a list of items to schedule “me” time. You can choose items for every day of the week or several times a week or month, your choice. So, go ahead and ',
+                    text: 'The calendar is set up to remind you to love, spoil and make yourself a priority, even if it’s for 5-10 minutes. You have the option to choose from a list of items from the Self Love/Self Care section to schedule “me” time. You can choose items for every day of the week or several times a week or a month, your choice. So, go ahead and ',
                   ),
-                  TextSpan(text: 'love thyself.', 
+                  TextSpan(text: 'Love Thyself.', 
                     style: TextStyle(
                       fontFamily: 'Gilroy-Bold',
                     )
@@ -288,7 +288,7 @@ class Dialogs {
                     text: 'Have you been thinking about creating a bucket list for yourself? Would you consider sharing your bucket list with your family/friends? \n\n',
                   ),
                   TextSpan(
-                    text: 'Would you consider sharing your bucket list with your family/friends? We’ve listed some popular items that people have in their Bucket List. \nYou can also ',
+                    text: 'We’ve listed some popular items that people have in their Bucket List. \nYou can also ',
                   ),
                   TextSpan(text: 'create your own.', 
                     style: TextStyle(
@@ -362,6 +362,53 @@ class Dialogs {
       )
     );
   }
+
+  
+  static Future showDailyRemainder(BuildContext context, String title, String body, String ok){
+    return showThemedDialog(context, 
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: 20.0, left: 40.0, right: 40.0),
+            child: Text(title,
+              style: TextStyle(
+                fontSize: 18.0,
+                fontFamily: 'Gilroy-Bold',
+              )
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
+            child: Text(body,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 30.0,
+                color: AppColors.iconBlue,
+                fontFamily: 'Gilroy-Normal'
+              )
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
+            child: InkWell(
+              onTap: (){
+                Navigator.pop(context);
+              },
+              child: Text(ok,
+                style: TextStyle(
+                  fontFamily: 'Gilroy-ExtraBold',
+                  color: AppColors.textBlue,
+                  fontSize: 18.0
+                ),
+              ),
+            ),
+          ) 
+        ],
+      )
+    );
+  }
+
 
   static Future showAddToCalendar(BuildContext context, {CareAffirmation careAffirmation, CalendarItem calendarItem}){
     return showThemedDialog(context,

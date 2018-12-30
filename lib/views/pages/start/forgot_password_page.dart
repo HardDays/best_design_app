@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'check_email_page.dart';
 
 import '../../widgets/main_button.dart';
+import '../../widgets/shadow_text.dart';
 
 import '../../routes/default_page_route.dart';
+
+import '../../../helpers/data_provider.dart';
 
 import '../../../resources/app_colors.dart';
 
@@ -18,7 +21,7 @@ class ForgotPasswordPageState extends State<ForgotPasswordPage> {
   
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  String userName;
+  String email;
 
   @override
   void initState() {    
@@ -28,7 +31,7 @@ class ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   String validateUserName(String userName){
     if (userName.isEmpty){
-      return 'Empty username';
+      return 'Empty email';
     }
   }
 
@@ -82,11 +85,11 @@ class ForgotPasswordPageState extends State<ForgotPasswordPage> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 0.0, left: 15.0, right: 15.0),
-                child: Text('Uplifting Women',
+                child: ShadowText('Uplifting Women',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'ClickerScript',
-                    fontSize: 40.0
+                    color: AppColors.titleLightPink,
+                    fontFamily: 'Norican',
+                    fontSize: 36.0
                   ),
                 ),
               ),
@@ -143,7 +146,7 @@ class ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           ),
                           validator: validateUserName,
                           onSaved: (userName){
-                            this.userName = userName;
+                            this.email = userName;
                           },  
                         ),
                       ),
@@ -155,10 +158,14 @@ class ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 margin: EdgeInsets.only(top: 40.0, left: 20.0, right: 20.0),
                 child: MainButton('RESTORE',
                   onTap: (){
-                    Navigator.push(
-                      context, 
-                      DefaultPageRoute(builder: (context) => CheckEmailPage()),
-                    ); 
+                    if (formKey.currentState.validate()){
+                      formKey.currentState.save();
+                      DataProvider.resetPassword(email);
+                      Navigator.push(
+                        context, 
+                        DefaultPageRoute(builder: (context) => CheckEmailPage()),
+                      ); 
+                    }
                   },
                 ),
               ),
