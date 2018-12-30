@@ -221,7 +221,7 @@ class CareListPageState extends State<CareListPage> {
                 ),
               ),
             ),
-            //date.month > 1 ? Container(
+            date.month > 1 ?
             Container(
               margin: EdgeInsets.only(top: 0.0),
               color: Colors.white,
@@ -233,9 +233,9 @@ class CareListPageState extends State<CareListPage> {
                   GestureDetector(
                     onTap: (){
                       setState(() {
-                       // if (date.month > 1){
+                        if (date.month > 1){
                           date = DateTime(date.year, (date.month - 1));       
-                       // }                 
+                        }                 
                       });
                     },
                     child: Container(
@@ -260,7 +260,7 @@ class CareListPageState extends State<CareListPage> {
                   ),
                 ],
               ),
-            )// : Container()
+            ) : Container()
           ]
         )
       )

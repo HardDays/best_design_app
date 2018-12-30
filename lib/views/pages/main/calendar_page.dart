@@ -315,7 +315,6 @@ class CalendarPageState extends State<CalendarPage> {
                       }
                     }
                     client.close();
-                    
                   });
                 },
                 bgColor: Colors.white, 
