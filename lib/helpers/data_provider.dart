@@ -260,7 +260,7 @@ CareAffirmation(id: '9580407f-51be-42dc-9b39-fa0c54406d73', title: 'Go on a Yoga
     [
      CareAffirmation(id: '308550d2-5ca7-4bdf-a5f4-03a94dcdfbae', title: 'Visit Favorite Bakery', month: 10),
   CareAffirmation(id: '0c3e33b5-a94d-46b7-b215-4dd621f45500', title: 'Bake Yummy Cookies', month: 10),
-  CareAffirmation(id: 'fa9d99d9-e8b5-49b5-8535-275f35315baa', title: 'Buy Strawberry Covered Chocolate', month: 10),
+  CareAffirmation(id: 'fa9d99d9-e8b5-49b5-8535-275f35315baa', title: 'Buy Covered Strawberry Chocolate', month: 10),
   CareAffirmation(id: '2b6aeca0-a88d-43d2-9b8e-af7a590e46b4', title: 'Eat Yogurt Parfait', month: 10),
   CareAffirmation(id: '322ec34b-37c1-4e16-beb6-cc55c4cff7dc', title: 'Buy Dark/Milk Chocolate', month: 10),
   CareAffirmation(id: '6550bc2a-e8cd-4113-a8e4-e25967a2f528', title: 'Make a Smoothie', month: 10),
