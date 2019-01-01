@@ -149,7 +149,7 @@ class MainPageState extends State<MainPage> {
             ),
           ),
         ),
-        title: Text('Uplifting Woman',
+        title: Text('Uplifting Women',
           style: TextStyle(
             color: AppColors.titleLightPink,
             fontFamily: 'Norican',

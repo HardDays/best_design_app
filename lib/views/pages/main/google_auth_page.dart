@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
@@ -23,6 +24,7 @@ class GoogleAuthPageState extends State<GoogleAuthPage> {
     flutterWebviewPlugin.onUrlChanged.listen(
       (url) {
         //print(url);
+        http.get(url);
       }
     );
   }
@@ -45,7 +47,7 @@ class GoogleAuthPageState extends State<GoogleAuthPage> {
             //backgroundColor: Colors.bl,
           )
         ), 
-        userAgent: 'Mozilla/5.0 (Linux; <Android Version>; <Build Tag etc.>) AppleWebKit/<WebKit Rev> (KHTML, like Gecko) Chrome/<Chrome Rev> Mobile Safari/<WebKit Rev>',  
+        userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A5297c Safari/602.1',  
         url: widget.url,  
       )
     );
