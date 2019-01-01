@@ -864,13 +864,13 @@ CareAffirmation(id: '9580407f-51be-42dc-9b39-fa0c54406d73', title: 'Go on a Yoga
 
   static void removeCalendarItem(CalendarItem item){
     List<CalendarItem> remove = [];
-    for (var item in calendar){
-      if (item.careAffirmation.id == item.careAffirmation.id){
+    for (var i in calendar){
+      if (i.careAffirmation.id == item.careAffirmation.id){
         remove.add(item);
       }
     }
-    for (var item in remove){
-      calendar.remove(item);
+    for (var i in remove){
+      calendar.remove(i);
     }
     idCalendar.remove(item.careAffirmation.id);
     calculateDates();
