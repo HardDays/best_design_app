@@ -271,9 +271,11 @@ class CalendarPageState extends State<CalendarPage> {
 
                     var api = gcal.CalendarApi(client);
                     gcal.Calendar calendar;
+                    String ran_cal_timezone;
 
                     var calendars = await api.calendarList.list();
                     for (var cal in calendars.items) {
+                      ran_cal_timezone = cal.timeZone;
                       if (cal.summary == 'Uplifting Women') {
                         calendar = gcal.Calendar();
                         calendar.id = cal.id;
@@ -287,6 +289,7 @@ class CalendarPageState extends State<CalendarPage> {
                       newCal.description = 'Uplifting Women';
                       newCal.summary = 'Uplifting Women';
                       newCal.etag = 'upwomen';
+                      newCal.timeZone = ran_cal_timezone;
                       calendar = await api.calendars.insert(newCal);
                     }
 
