@@ -1,4 +1,4 @@
-package com.example.upliftingmobile;
+package io.uplifting.upliftingmobile_price;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

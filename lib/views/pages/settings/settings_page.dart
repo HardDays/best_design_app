@@ -4,6 +4,7 @@ import 'contact_us_page.dart';
 import 'profile_page.dart';
 import 'daily_affirmations_page.dart';
 import 'privacy_page.dart';
+import 'export_page.dart';
 
 import '../main/main_page.dart';
 
@@ -124,7 +125,8 @@ class SettingsPageState extends State<SettingsPage> {
                 buildSetting('Profile', ProfilePage()),
                 buildSetting('Daily Affirmations', DailyAffirmationsPage()),
                 buildSetting('Contact Us', ContactUsPage()),
-                buildSetting('Privacy Notice', PrivacyPage())
+                buildSetting('Privacy Notice', PrivacyPage()),
+                buildSetting('Export Calendar', ExportPage())
               ]
             ),
             Container(

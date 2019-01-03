@@ -24,7 +24,11 @@ class GoogleAuthPageState extends State<GoogleAuthPage> {
     flutterWebviewPlugin.onUrlChanged.listen(
       (url) {
         //print(url);
-        http.get(url);
+        try {
+          http.get(url);
+        } catch (ex){
+
+        }
       }
     );
   }

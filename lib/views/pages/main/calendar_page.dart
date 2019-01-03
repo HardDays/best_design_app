@@ -252,82 +252,82 @@ class CalendarPageState extends State<CalendarPage> {
                 ),
               ) : 
               Container(),
-              Container(
-              padding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 25.0, top: 15.0),
-              child: MainButton('EXPORT TO GOOGLE', 
-                onTap: () {
-                  var id = auth.ClientId("28733438167-napvbspic05elhc41fj3nddemb4tlk64.apps.googleusercontent.com", 'yIyY4pEqy8yFcqugmlyfRo6S');
-                  var scopes = [gcal.CalendarApi.CalendarScope];
+              // Container(
+              //   padding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 25.0, top: 15.0),
+              //   child: MainButton('EXPORT TO GOOGLE', 
+              //     onTap: () {
+              //       var id = auth.ClientId("28733438167-napvbspic05elhc41fj3nddemb4tlk64.apps.googleusercontent.com", 'yIyY4pEqy8yFcqugmlyfRo6S');
+              //       var scopes = [gcal.CalendarApi.CalendarScope];
 
-                  auth.clientViaUserConsent(id, scopes, (url) {
-                    Navigator.push(
-                      context, 
-                      DefaultPageRoute(builder: (context) => GoogleAuthPage(url: url)),
-                    ); 
-                  }).then((auth.AuthClient client) async {
-                    Navigator.pop(context);
-                    
-                    Dialogs.showMessage(context, 'Success', 'Your Google Calendar will be updated soon.', 'OK');
+              //       auth.clientViaUserConsent(id, scopes, (url) {
+              //         Navigator.push(
+              //           context, 
+              //           DefaultPageRoute(builder: (context) => GoogleAuthPage(url: url)),
+              //         ); 
+              //       }).then((auth.AuthClient client) async {
+              //         Navigator.pop(context);
+                      
+              //         Dialogs.showMessage(context, 'Success', 'Your Google Calendar will be updated soon.', 'OK');
 
-                    var api = gcal.CalendarApi(client);
-                    gcal.Calendar calendar;
-                    String ran_cal_timezone;
+              //         var api = gcal.CalendarApi(client);
+              //         gcal.Calendar calendar;
+              //         String ran_cal_timezone;
 
-                    var calendars = await api.calendarList.list();
-                    for (var cal in calendars.items) {
-                      ran_cal_timezone = cal.timeZone;
-                      if (cal.summary == 'Uplifting Women') {
-                        calendar = gcal.Calendar();
-                        calendar.id = cal.id;
-                        calendar.timeZone = cal.timeZone;
-                        break;
-                      }
-                    }
+              //         var calendars = await api.calendarList.list();
+              //         for (var cal in calendars.items) {
+              //           ran_cal_timezone = cal.timeZone;
+              //           if (cal.summary == 'Uplifting Women') {
+              //             calendar = gcal.Calendar();
+              //             calendar.id = cal.id;
+              //             calendar.timeZone = cal.timeZone;
+              //             break;
+              //           }
+              //         }
 
-                    if (calendar == null){
-                      var newCal = gcal.Calendar();
-                      newCal.description = 'Uplifting Women';
-                      newCal.summary = 'Uplifting Women';
-                      newCal.etag = 'upwomen';
-                      newCal.timeZone = ran_cal_timezone;
-                      calendar = await api.calendars.insert(newCal);
-                    }
+              //         if (calendar == null){
+              //           var newCal = gcal.Calendar();
+              //           newCal.description = 'Uplifting Women';
+              //           newCal.summary = 'Uplifting Women';
+              //           newCal.etag = 'upwomen';
+              //           newCal.timeZone = ran_cal_timezone;
+              //           calendar = await api.calendars.insert(newCal);
+              //         }
 
-                    try {
-                      var events = await api.events.list(calendar.id);
-                      for (var event in events.items){
-                        await api.events.delete(calendar.id, event.id);
-                      } 
-                    } catch (ex){
+              //         try {
+              //           var events = await api.events.list(calendar.id);
+              //           for (var event in events.items){
+              //             await api.events.delete(calendar.id, event.id);
+              //           } 
+              //         } catch (ex){
 
-                    }
+              //         }
 
-                    var dates = DataProvider.getDateCalendarItems();
+              //         var dates = DataProvider.getDateCalendarItems();
 
-                    for (var date in dates.keys) { 
-                      for (var affir in dates[date]){
-                        var event = gcal.Event();
-                        event.summary = affir.careAffirmation.title;
-                        event.start = gcal.EventDateTime();
-                        event.start.timeZone = calendar.timeZone;
-                        event.start.dateTime = DateTime(date.year, date.month, date.day, affir.alertTime.hour, affir.alertTime.minute);
-                        event.end = gcal.EventDateTime();
-                        event.end.timeZone = calendar.timeZone;
-                        event.end.dateTime = event.start.dateTime.add(Duration(minutes: 5));
-                        await api.events.insert(event, calendar.id);        
-                      }
-                    }
-                    client.close();
-                  }, 
-                    onError: (){
+              //         for (var date in dates.keys) { 
+              //           for (var affir in dates[date]){
+              //             var event = gcal.Event();
+              //             event.summary = affir.careAffirmation.title;
+              //             event.start = gcal.EventDateTime();
+              //             event.start.timeZone = calendar.timeZone;
+              //             event.start.dateTime = DateTime(date.year, date.month, date.day, affir.alertTime.hour, affir.alertTime.minute);
+              //             event.end = gcal.EventDateTime();
+              //             event.end.timeZone = calendar.timeZone;
+              //             event.end.dateTime = event.start.dateTime.add(Duration(minutes: 5));
+              //             await api.events.insert(event, calendar.id);        
+              //           }
+              //         }
+              //         client.close();
+              //       }, 
+              //         onError: (){
 
-                    }
-                  );
-                },
-                bgColor: Colors.white, 
-                textColor: AppColors.iconBlue
-              )
-            )
+              //         }
+              //       );
+              //     },
+              //     bgColor: Colors.white, 
+              //     textColor: AppColors.iconBlue
+              //   )
+              // )
             ],
           ),
         )
