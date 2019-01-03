@@ -79,7 +79,7 @@ class ExportPageState extends State<ExportPage> {
                 Divider(),
                 Container(
                   padding: EdgeInsets.only(top: 10.0, right: 20.0, left: 20.0, bottom: 10.0),
-                   child: Text('Here you can export all your affirmations to the Google Calendar. \n\nIf this is the first export, a new calendar will be created. If you have previously exprorted events, then all your events in Google Calendar will be updated according to current application calendar. \n\nYou need to log in into your Google account in order to make successful export.',
+                   child: Text('Here you can export your Self Love/Self Care calendar events to the Google calendar. \n\nIf this is your first export, a new calendar will be created. \n\nIf you have previously exported your Uplifting Women calendar, then all events in your Google Calendar will be updated according to the Uplifting Women calendar. \n\nYou may need to log into your Google account to give the Uplifting Women app permission to update your Google calendar.',
                     style: TextStyle(
                       fontSize: 16.0
                     ),
