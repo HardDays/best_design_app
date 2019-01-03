@@ -187,6 +187,10 @@ class AddToCalendarDialogState extends State<AddToCalendarDialog> {
       onConfirm: (Picker picker, List value) {
         setState(() {
           item.alertTime = TimeOfDay.fromDateTime((picker.adapter as DateTimePickerAdapter).value);
+          if (item.alertTime.hour == 0 && item.alertTime.minute == 0)
+            item.alertTime = TimeOfDay.fromDateTime(new DateTime(2018 ,12, 12, 12, 0));
+          else if (item.alertTime.hour == 12 && item.alertTime.minute == 0)
+            item.alertTime = TimeOfDay.fromDateTime(new DateTime(2018 ,12, 12, 0, 0));
         });
       },
     ).showDialog(context); 
