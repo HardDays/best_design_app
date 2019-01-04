@@ -791,6 +791,9 @@ CareAffirmation(id: '9580407f-51be-42dc-9b39-fa0c54406d73', title: 'Go on a Yoga
          }
       }
     }
+    for (var date in dateCalendar.keys){
+      dateCalendar[date].sort((c1, c2) => DateTime(1980, 1, 1, c1.alertTime.hour, c1.alertTime.minute).compareTo(DateTime(1980, 1, 1, c2.alertTime.hour, c2.alertTime.minute)));
+    }
     updateNotifications();
   }
 
