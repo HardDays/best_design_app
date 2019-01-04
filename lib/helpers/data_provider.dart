@@ -1,6 +1,8 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'database.dart';
+import 'package:sortedmap/sortedmap.dart';
+import "dart:collection";
 
 import '../helpers/main_api.dart';
 
@@ -552,7 +554,7 @@ CareAffirmation(id: '9580407f-51be-42dc-9b39-fa0c54406d73', title: 'Go on a Yoga
 
   static List<CalendarItem> calendar = [];
   static Map<String, CalendarItem> idCalendar = {};
-  static Map<DateTime, List<CalendarItem>> dateCalendar = {};
+  static SplayTreeMap<DateTime, List<CalendarItem>> dateCalendar = new SplayTreeMap();
 
   static List<BucketItem> bucketItems = [];
   static Map<String, BucketItem> idBucketItems = {};
@@ -690,7 +692,7 @@ CareAffirmation(id: '9580407f-51be-42dc-9b39-fa0c54406d73', title: 'Go on a Yoga
 
     calendar = [];
     idCalendar = {};
-    dateCalendar = {};
+    dateCalendar = new SplayTreeMap();
 
     positiveItems = [];
     idPositiveItems = {};
@@ -759,7 +761,7 @@ CareAffirmation(id: '9580407f-51be-42dc-9b39-fa0c54406d73', title: 'Go on a Yoga
 
   static void calculateDates() async {
     var cDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-    dateCalendar = {};
+    dateCalendar = new SplayTreeMap();
     
     for (var item in calendar){
       var endDate = DateTime(cDate.year + 3, cDate.month, cDate.day);

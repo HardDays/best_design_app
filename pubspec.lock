@@ -191,6 +191,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  sortedmap:
+    dependency: "direct main"
+    description:
+      name: sortedmap
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.2"
   source_span:
     dependency: transitive
     description:

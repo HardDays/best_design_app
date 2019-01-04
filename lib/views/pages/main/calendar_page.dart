@@ -191,6 +191,9 @@ class CalendarPageState extends State<CalendarPage> {
                       child: Column(
                         children: List.generate(calendar[selectedDate].length, 
                           (ind) {
+                            //yep, this is a bulship, but I dont have time to fix it:
+                            calendar[selectedDate].sort((a, b) => (a.alertTime.hour + (a.alertTime.minute/100.0)).compareTo((b.alertTime.hour + (b.alertTime.minute/100.0))));
+                            //
                             var item = calendar[selectedDate][ind];
                             return Container(
                               margin: EdgeInsets.only(bottom: 10.0),

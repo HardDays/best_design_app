@@ -29,6 +29,7 @@ dependencies:
   googleapis_auth: any
   flutter_webview_plugin: any
   timezone: any
+  sortedmap: ^0.4.2
     
 dev_dependencies:
   flutter_test:
