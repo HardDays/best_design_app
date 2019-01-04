@@ -114,7 +114,7 @@ class CareListPageState extends State<CareListPage> {
           image: DecorationImage(
             image: AssetImage(monthImages[date.month - 1]),
             fit: BoxFit.fitWidth,
-            colorFilter: ColorFilter.mode(Colors.white.withOpacity(0.5), BlendMode.dstATop)
+            //colorFilter: ColorFilter.mode(Colors.white.withOpacity(0.4), BlendMode.dstATop)
           ),
         ),
         child: Column(  
@@ -191,7 +191,7 @@ class CareListPageState extends State<CareListPage> {
                                 ),
                                 Container(
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: Colors.white.withOpacity(0.85),
                                     borderRadius: BorderRadius.all(Radius.circular(5.0))
                                   ),
                                   child: IconButton(
@@ -221,7 +221,7 @@ class CareListPageState extends State<CareListPage> {
                 ),
               ),
             ),
-            date.month > 1 ?
+            //date.month > 1 ?
             Container(
               margin: EdgeInsets.only(top: 0.0),
               color: Colors.white,
@@ -233,9 +233,9 @@ class CareListPageState extends State<CareListPage> {
                   GestureDetector(
                     onTap: (){
                       setState(() {
-                        if (date.month > 1){
+                      //  if (date.month > 1){
                           date = DateTime(date.year, (date.month - 1));       
-                        }                 
+                       // }                 
                       });
                     },
                     child: Container(
@@ -260,7 +260,7 @@ class CareListPageState extends State<CareListPage> {
                   ),
                 ],
               ),
-            ) : Container()
+            )// : Container()
           ]
         )
       )

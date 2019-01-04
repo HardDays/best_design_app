@@ -345,7 +345,7 @@ CareAffirmation(id: '9580407f-51be-42dc-9b39-fa0c54406d73', title: 'Go on a Yoga
   PositiveAffirmation(id: '31cf746b-4a27-4e11-bf5d-a3d9722a9d40', title: 'I love the person I see in the mirror', category: 'love'),
   PositiveAffirmation(id: 'f57970a5-271b-4570-a338-fc3bf9f6ba36', title: 'I am constantly surrounded by love', category: 'love'),
   PositiveAffirmation(id: '6fe1fa22-22f4-4ab8-abe2-4176d7f6297b', title: 'My inner beauty naturally radiates outward', category: 'love'),
-  PositiveAffirmation(id: 'b2e924d3-b514-41d8-8823-4a3abea59414', title: 'I am always open to receiving money', category: 'love'),
+  //PositiveAffirmation(id: 'b2e924d3-b514-41d8-8823-4a3abea59414', title: 'I am always open to receiving money', category: 'love'),
   PositiveAffirmation(id: '363a94dc-d0d0-4276-bd77-ad99e7677368', title: 'I draw true love and romance into my life now', category: 'love'),
   PositiveAffirmation(id: 'a191f76b-581e-47ee-a0dc-786a4ef99f26', title: 'I am in a joyous, intimate relationship with a man who truly loves me', category: 'love'),
   PositiveAffirmation(id: '69604c33-c2aa-4811-b14b-bd84df0df24f', title: 'I attract only healthy relationships', category: 'love'),

@@ -13,16 +13,16 @@ class AppColors {
   static const Color affirmationsHeader = Color(0xC8674E97);
   static const Color iconBlue = Color(0xFF1EA5CD);
 
-  static const Color janHeader = Color(0xC81EA5CD);
+  static const Color janHeader = Color(0x881EA5CD);
   static const Color febHeader = Color(0xC8930303);
   static const Color marHeader = Color(0xC8FD7F58);
   static const Color aprHeader = Color(0xC898DDCB);
-  static const Color mayHeader = Color(0xC8A5D1EC);
-  static const Color junHeader = Color(0xC86C6C6E);
-  static const Color julHeader = Color(0xC801348F);
-  static const Color augHeader = Color(0xC88296AF);
+  static const Color mayHeader = Color(0xC801348F);
+  static const Color junHeader = Color(0xBB93278F);
+  static const Color julHeader = Color(0xAAF47E12);
+  static const Color augHeader = Color(0xFF8296AF);
   static const Color sepHeader = Color(0xC8577154);
   static const Color octHeader = Color(0xC8C799BF);
-  static const Color novHeader = Color(0xC8FF7C83);
-  static const Color decHeader = Color(0xC8231D1F);
+  static const Color novHeader = Color(0xC8021A7C);
+  static const Color decHeader = Color(0xF0231D1F);
 }
