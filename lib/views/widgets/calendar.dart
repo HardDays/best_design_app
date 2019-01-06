@@ -115,7 +115,7 @@ class Calendar extends StatefulWidget {
     this.weekDayMargin = const EdgeInsets.only(bottom: 4.0),
     this.isIntervalSelectable
   }){
-
+    
   }
 
   @override

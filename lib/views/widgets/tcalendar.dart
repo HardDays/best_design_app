@@ -66,14 +66,14 @@ class CalendarState extends State<Calendar> {
   }
 
   int countDays(DateTime date){
-    return DateTime(date.year, date.month + 1, 1).difference(date).inDays;
+    return DateTime(date.year, date.month + 1, 1).difference(DateTime(date.year, date.month, 1)).inDays;
   }
 
   @override
   Widget build(BuildContext context) {
     var days = countDays(monthDate);
     var prevDays = countDays(DateTime(monthDate.year, monthDate.month - 1, 1));
-    var prevWeek = monthDate.weekday < 7 ? monthDate.weekday : 0;
+    var prevWeek = DateTime(monthDate.year, monthDate.month, 1).weekday < 7 ? DateTime(monthDate.year, monthDate.month, 1).weekday : 0;
     var nextDays = 0;
     var nextWeek = 7 - DateTime(monthDate.year, monthDate.month + 1, 1).weekday;
     int day = 0;

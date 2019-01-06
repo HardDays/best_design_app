@@ -117,6 +117,7 @@ class PositiveListPageState extends State<PositiveListPage> {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(images[widget.category]),
+            //colorFilter: ColorFilter.mode(Colors.white.withOpacity(0.4), BlendMode.dstATop),
             fit: BoxFit.cover,
           ),
         ),

@@ -202,7 +202,7 @@ class CalendarPageState extends State<CalendarPage> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Container(
-                                    child: Text(DateFormat('hh:mma').format(DateTime(2018, 12, 12, item.alertTime.hour, item.alertTime.minute)),
+                                    child: Text(DateFormat('hh:mma').format(DateTime(2019, 12, 12, item.alertTime.hour, item.alertTime.minute)),
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 16.0,
