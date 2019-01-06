@@ -222,45 +222,7 @@ class CareListPageState extends State<CareListPage> {
               ),
             ),
             //date.month > 1 ?
-            Container(
-              margin: EdgeInsets.only(top: 0.0),
-              color: Colors.white,
-              padding: EdgeInsets.all(10.0),
-              width: MediaQuery.of(context).size.width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: (){
-                      setState(() {
-                      //  if (date.month > 1){
-                          date = DateTime(date.year, (date.month - 1));       
-                       // }                 
-                      });
-                    },
-                    child: Container(
-                      color: Colors.transparent,
-                      child: Row(
-                        children: <Widget>[
-                          Icon(Icons.arrow_back_ios,
-                            color: AppColors.textBlue,
-                            size: 30.0,
-                          ),
-                          Padding(padding: EdgeInsets.only(left: 5.0)),
-                          Text('PREVIOUS LIST',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14.0
-                            ),
-                          ),
-                        ]
-                      )
-                    )
-                  ),
-                ],
-              ),
-            )// : Container()
+            
           ]
         )
       )
